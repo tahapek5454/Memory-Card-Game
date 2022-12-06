@@ -4,12 +4,14 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ImageButton
 import android.widget.Toast
+import com.melihsurkmez.memorygame.databinding.ActivityChangePasswordBinding
+import com.melihsurkmez.memorygame.databinding.ActivityGameBinding
 import kotlinx.android.synthetic.main.activity_game.*
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.concurrent.TimeUnit
 
 class Game : AppCompatActivity() {
-
+    lateinit var binding : ActivityGameBinding
     private lateinit var buttons: List<ImageButton>
     private lateinit var cards: List<MemoryCard>
     private var indexOfSingleSelectedCard: Int? = null
@@ -18,7 +20,9 @@ class Game : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        //setContentView(R.layout.activity_main)
+        binding = ActivityGameBinding.inflate(layoutInflater)
+        setContentView(binding.root)
         val images = mutableListOf(
             R.drawable.ic_heart,
             R.drawable.ic_light,
@@ -30,8 +34,8 @@ class Game : AppCompatActivity() {
         // Randomize the order of images
         images.shuffle()
 
-        buttons = listOf(imageButton1, imageButton2, imageButton3, imageButton4, imageButton5,
-            imageButton6, imageButton7, imageButton8)
+        buttons = listOf(binding.imageButton1, binding.imageButton2, binding.imageButton3, binding.imageButton4, binding.imageButton5,
+            binding.imageButton6, binding.imageButton7, binding.imageButton8)
 
         cards = buttons.indices.map { index ->
             MemoryCard(images[index])
