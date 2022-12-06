@@ -6,6 +6,7 @@ import android.os.Bundle
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.melihsurkmez.memorygame.databinding.ActivityMainBinding
+import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
@@ -16,6 +17,7 @@ class MainActivity : AppCompatActivity() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
 
         binding.kaydol.setOnClickListener {
 
@@ -29,6 +31,11 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
 
 
+        }
+        giris_butonu.setOnClickListener{
+
+            intent = Intent(applicationContext, Game::class.java)
+            startActivity(intent)
         }
 
 
