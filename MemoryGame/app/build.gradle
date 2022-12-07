@@ -1,7 +1,6 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
-    id 'org.jetbrains.kotlin.android.extensions'
     id 'com.google.gms.google-services'
 }
 
@@ -47,8 +46,12 @@ dependencies {
     implementation 'com.google.firebase:firebase-analytics-ktx:20.1.1'
     implementation 'com.google.firebase:firebase-database-ktx:20.1.0'
     implementation 'com.google.firebase:firebase-auth-ktx:21.1.0'
+    implementation "com.squareup.okhttp3:okhttp:4.2.1"
+    implementation "com.squareup.okhttp3:logging-interceptor:4.2.1"
+    implementation "com.squareup.okhttp3:okhttp-urlconnection:4.2.1"
     testImplementation 'junit:junit:4.13.2'
     implementation platform('com.google.firebase:firebase-bom:31.1.0')
     androidTestImplementation 'androidx.test.ext:junit:1.1.4'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0'
+
 }

@@ -3,6 +3,8 @@ package com.melihsurkmez.memorygame
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.text.TextUtils
 import android.view.LayoutInflater
 import android.widget.Toast
@@ -10,6 +12,8 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.melihsurkmez.memorygame.databinding.ActivityRegisterBinding
+import okhttp3.*
+import java.io.IOException
 
 class Register : AppCompatActivity() {
     lateinit var binding: ActivityRegisterBinding
@@ -59,7 +63,7 @@ class Register : AppCompatActivity() {
                 binding.kayitSifre.error="Şifre uzunluğu 6 karakterden fazla olmalıdır!"
 
                 return@setOnClickListener
-                
+
             }
 
 
@@ -70,32 +74,80 @@ class Register : AppCompatActivity() {
                 return@setOnClickListener
             }
 
+            register(username,email,password)
 
 
 
-            else{
+            }
+        }
 
-                auth.createUserWithEmailAndPassword(binding.kayitEmail.text.toString(),binding.kayitSifre.text.toString())
-                    .addOnCompleteListener(this){ task ->
-                        if(task.isSuccessful){
-                            // Kullanıcı bilgilerini alıyorum.
-                            var currentUser = auth.currentUser
-                            // İlgili detaylar realtime'e kaydediyorum.
-                            var currentUserDatabase=currentUser?.let { it1 -> databaseReference?.child(it1.uid) }
-                            currentUserDatabase?.child("kullaniciadi")?.setValue(binding.kayitKullaniciadi.text.toString())
-                            currentUserDatabase?.child("email")?.setValue(binding.kayitEmail.text.toString())
-                            currentUserDatabase?.child("sifre")?.setValue(binding.kayitSifre.text.toString())
-                            Toast.makeText(this@Register,"Kayıt başarıyla gerçekleşti.",Toast.LENGTH_LONG).show()
+    fun register(username: String, email: String, password: String){
+
+        val parameter = username+"-"+email+"-"+password
+        val URL:String = " http://192.168.1.101:5000/api/register/"+parameter
+
+        if(URL.isNotEmpty()){
+
+            val client = OkHttpClient()
+
+            val request = Request.Builder()
+                .url(URL)
+                .build()
+
+            client.newCall(request).enqueue(object : Callback {
+
+                override fun onFailure(call: Call, e: IOException) {
+                    e.printStackTrace()
+                }
+
+                override fun onResponse(call: Call, response: Response) {
+                    println("Debug")
+
+                    response.use {
+
+                        if(!response.isSuccessful){
+
+                            println("Error")
 
                         }
                         else{
-                            Toast.makeText(this@Register,"Kayıt gerçekleştirilemedi.",Toast.LENGTH_LONG).show()
+
+                            val body = response?.body?.string()
+
+                            val response: String?=body.toString()
+                            println(response)
+                            if(response=="OK"){
+
+                                Handler(Looper.getMainLooper()).post {
+                                    Toast.makeText(this@Register, "Kayıt işlemi başarılı bir şekilde gerçekleşti.", Toast.LENGTH_LONG).show()
+                                }
+
+                            }
+                            else{
+
+                                Handler(Looper.getMainLooper()).post {
+                                    Toast.makeText(this@Register, "Bu kullanıcı zaten kayıtlı.", Toast.LENGTH_LONG).show()
+                                }
+
+                            }
+
+
                         }
                     }
-            }
+                }
+            })
+
+        }
+        else{
+
+            println("Tehlike")
+
         }
 
 
 
     }
-}
+
+
+
+    }
