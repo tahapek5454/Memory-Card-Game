@@ -1,11 +1,26 @@
 import flask
 import mysql.connector
+import redis
 from flask import request, jsonify
 
 
 app = flask.Flask(__name__)
+r = redis.Redis(
+    host='34.170.163.125',
+    port=6379, 
+    password='kouyazlab')
 
+r.flushdb()
+r.flushall()
 username_password=[]
+conn = mysql.connector.connect(host='34.71.163.17',
+                        user='root',
+                        password='yazlab123',
+                        database='memorygame'
+                        )
+    
+conn_cursor = conn.cursor(buffered=True)
+
 
 
 @app.route('/', methods=['GET'])
@@ -13,62 +28,71 @@ def home():
     return '''Login api is running now.'''
 
 def login_control(username,password):
-    conn = mysql.connector.connect(host='34.71.163.17',
-                        user='root',
-                        password='yazlab123',
-                        database='memorygame'
-                        )
     
-    conn_cursor = conn.cursor(buffered=True)
+    # r.set('mykey', 'Hello from Python!')
+    # value = r.get('mykey')
+    # value = value.decode("utf-8")
+    # print(type(value))
+    
+    query="Select Email from Users where Username='{}' AND Password='{}'".format(username,password)
 
-    conn_cursor.execute("Select Email from Users where Username='{}' AND Password='{}'".format(username,password))
-    result=conn_cursor.fetchall()
+    if(r.exists(query)):
+        print("Login Cache")
+        return r.get(query).decode('utf-8')
+    
+    else:
+        conn_cursor.execute("Select Email from Users where Username='{}' AND Password='{}'".format(username,password))
+        result=conn_cursor.fetchall()
+        if len(result)==0:
 
-    if len(result)==0:
-        conn_cursor.close()
-        return False
-    conn_cursor.close()
-    return True
+            r.set(query,"False")
+            return False
+        r.set(query,"True")
+        return True
       
 def register_function(email,username,password):
-    conn = mysql.connector.connect(host='34.71.163.17',
-                        user='root',
-                        password='yazlab123',
-                        database='memorygame'
-                        )
-    
-    conn_cursor = conn.cursor(buffered=True)
 
-    conn_cursor.execute("Select Password from Users where Username='{}' OR Email='{}'".format(username,email))
-    result=conn_cursor.fetchall()
-    print(result)
-    if(len(result)>0):
-        conn_cursor.close()
-        return False
+    query="Select Password from Users where Username='{}' OR Email='{}'".format(username,email)
+
+    if(r.exists(query)):
+        print("Register Cache")
+        return r.get(query).decode('utf-8')
     
     else:
+        conn_cursor.execute("Select Password from Users where Username='{}' OR Email='{}'".format(username,email))
+        result=conn_cursor.fetchall()
         
-        conn_cursor.execute("INSERT INTO `memorygame`.`Users` (`Username`, `Email`,`Password`) VALUES ('{}', '{}','{}');".format(username,email,password))
-        conn.commit()
-        conn_cursor.close()
-        return True
+        if(len(result)>0):
+
+            r.set(query,"False")
+            return False
+    
+        else:
+            conn_cursor.execute("INSERT INTO `memorygame`.`Users` (`Username`, `Email`,`Password`) VALUES ('{}', '{}','{}');".format(username,email,password))
+            conn.commit()
+
+            r.set(query,"True")
+            return True
               
 def change_password(username,old_password,new_password):
-    conn = mysql.connector.connect(host='34.71.163.17',
-                        user='root',
-                        password='yazlab123',
-                        database='memorygame'
-                        )
     
-    conn_cursor = conn.cursor(buffered=True)
     if login_control(username=username,password=old_password):
+        r.delete("Select Email from Users where Username='{}' AND Password='{}'".format(username,old_password))
         
-        conn_cursor.execute("UPDATE `memorygame`.`Users` SET `Password`='{}' WHERE  `Username`='{}';".format(new_password,username))
-        conn.commit()
-        conn_cursor.close()
-        return True
+        query="UPDATE `memorygame`.`Users` SET `Password`='{}' WHERE  `Username`='{}';".format(new_password,username)
+        
+        if(r.exists(query)):
+            
+            print("Change password Cache")
+            return r.get(query).decode('utf-8')
+        
+        else:
+            conn_cursor.execute(query)
+            conn.commit()
+            r.set(query,"True")
+            return True
     else:
-        conn_cursor.close()
+        r.set(query,"False")
         return False
        
     
