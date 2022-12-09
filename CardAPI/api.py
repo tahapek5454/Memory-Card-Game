@@ -9,7 +9,7 @@ def getCardsFromDb():
     myCursor = cnx.cursor()
     response = []
 
-    query = "SELECT c.id, c.name, c.score, h.Name, h.Score FROM Cards as c, Home as h WHERE c.home_id = h.id"
+    query = "SELECT c.id, c.name, c.score, h.Name, h.Score, c.image FROM Cards as c, Home as h WHERE c.home_id = h.id"
     try:
         myCursor.execute(query)
 
@@ -22,6 +22,7 @@ def getCardsFromDb():
             myDict["cardScore"]=i[2]
             myDict["homeName"]=i[3]
             myDict["homeScore"]=i[4]
+            myDict["image"]=i[5]
 
             response.append(myDict)
 
