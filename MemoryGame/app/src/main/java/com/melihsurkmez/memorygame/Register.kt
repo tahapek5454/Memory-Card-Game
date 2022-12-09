@@ -8,26 +8,19 @@ import android.os.Looper
 import android.text.TextUtils
 import android.view.LayoutInflater
 import android.widget.Toast
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
 import com.melihsurkmez.memorygame.databinding.ActivityRegisterBinding
 import okhttp3.*
 import java.io.IOException
 
 class Register : AppCompatActivity() {
     lateinit var binding: ActivityRegisterBinding
-    private lateinit var auth: FirebaseAuth
-    var databaseReference:DatabaseReference?=null
-    var database:FirebaseDatabase?=null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
         // Database conf yapılan yer
-        auth=FirebaseAuth.getInstance()
-        database=FirebaseDatabase.getInstance()
-        databaseReference = database?.reference!!.child("Users")
+
 
 
         binding.kayitButonu.setOnClickListener {
