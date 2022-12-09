@@ -8,7 +8,8 @@ app = flask.Flask(__name__)
 r = redis.Redis(
     host='34.170.163.125',
     port=6379, 
-    password='kouyazlab')
+    password='kouyazlab',
+)
 
 r.flushdb()
 r.flushall()
@@ -38,13 +39,16 @@ def login_control(username,password):
 
     if(r.exists(query)):
         print("Login Cache")
-        return r.get(query).decode('utf-8')
+        if r.get(query).decode('utf-8')=="True":
+            return True
+        else:
+            return False
     
     else:
-        conn_cursor.execute("Select Email from Users where Username='{}' AND Password='{}'".format(username,password))
+        conn_cursor.execute(query)
         result=conn_cursor.fetchall()
+        print(result)
         if len(result)==0:
-
             r.set(query,"False")
             return False
         r.set(query,"True")
@@ -56,7 +60,11 @@ def register_function(email,username,password):
 
     if(r.exists(query)):
         print("Register Cache")
-        return r.get(query).decode('utf-8')
+        if r.get(query).decode('utf-8')=="True":
+            return True
+        else:
+            return False
+    
     
     else:
         conn_cursor.execute("Select Password from Users where Username='{}' OR Email='{}'".format(username,email))
@@ -76,15 +84,21 @@ def register_function(email,username,password):
               
 def change_password(username,old_password,new_password):
     
+    query="UPDATE `memorygame`.`Users` SET `Password`='{}' WHERE  `Username`='{}';".format(new_password,username)
+    
     if login_control(username=username,password=old_password):
-        r.delete("Select Email from Users where Username='{}' AND Password='{}'".format(username,old_password))
+        r.flushdb()
+        r.flushall()
         
-        query="UPDATE `memorygame`.`Users` SET `Password`='{}' WHERE  `Username`='{}';".format(new_password,username)
         
         if(r.exists(query)):
             
             print("Change password Cache")
-            return r.get(query).decode('utf-8')
+            if r.get(query).decode('utf-8')=="True":
+                return True
+            else:
+                return False
+    
         
         else:
             conn_cursor.execute(query)

@@ -7,10 +7,6 @@ import android.os.Handler
 import android.os.Looper
 import android.text.TextUtils
 import android.widget.Toast
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ktx.database
-import com.google.firebase.ktx.Firebase
 import com.melihsurkmez.memorygame.databinding.ActivityMainBinding
 import okhttp3.*
 import java.io.IOException
