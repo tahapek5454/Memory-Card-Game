@@ -35,10 +35,11 @@ def getCardsFromDb():
 # API  
 app = Flask(__name__)
 
-@app.route("/api/getCards", methods = ["GET"])
+@app.route("/getCards", methods = ["GET"])
 def getCard():
     if request.method == 'GET':     
         return jsonify(getCardsFromDb())
     return "Hata" 
     
-app.run(port=5001)
+    
+app.run("0.0.0.0",debug=True,port=5001)

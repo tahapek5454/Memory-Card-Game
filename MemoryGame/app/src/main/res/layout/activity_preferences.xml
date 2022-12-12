@@ -44,34 +44,44 @@
                 android:layout_alignParentBottom="true"
                 >
 
-
-
-                <Button
-                    android:id="@+id/birkisilik"
+                <RadioGroup
+                    android:id="@+id/oyuncusayisi"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_marginTop="20dp"
-                    android:backgroundTint="@color/custom"
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                    android:text="1 kişilik"
-                    android:textColor="@color/white"
-                    android:textSize="20dp"
-                    android:layout_marginRight="5dp"
-                    app:cornerRadius="20dp"
-                    android:layout_weight="1"/>
+                    android:layout_height="wrap_content">
 
-                <Button
-                    android:id="@+id/ikikisilik"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                    android:layout_marginTop="20dp"
-                    android:backgroundTint="@color/custom"
-                    android:text="2 Kişilik"
-                    android:textColor="@color/white"
-                    android:textSize="20dp"
-                    app:cornerRadius="20dp"
-                    android:layout_weight="1"/>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+
+                        <RadioButton
+                            android:id="@+id/tekkisilik"
+                            android:layout_width="160dp"
+                            android:layout_height="match_parent"
+
+                            android:layout_weight="1"
+                            android:text="Tek Kişilik"
+                            android:textColor="@color/custom"
+                            android:textSize="20sp"
+                            android:textStyle="bold" />
+
+                        <RadioButton
+                            android:id="@+id/ciftkisilik"
+                            android:layout_width="179dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:text="Çift Kişilik"
+                            android:textColor="@color/custom"
+                            android:textSize="20sp"
+                            android:textStyle="bold" />
+
+
+
+                    </LinearLayout>
+
+                </RadioGroup>
+
+
 
 
             </LinearLayout>
@@ -115,44 +125,54 @@
                 android:layout_alignParentBottom="true"
                 >
 
-                <Button
-                    android:id="@+id/kolay"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_marginTop="20dp"
-                    android:backgroundTint="@color/custom"
-                    android:text="Kolay"
-                    android:textColor="@color/white"
-                    android:textSize="18dp"
-                    android:layout_marginRight="5dp"
-                    app:cornerRadius="20dp"
-                    android:layout_weight="1"/>
 
-                <Button
-                    android:id="@+id/orta"
+                <RadioGroup
+                    android:id="@+id/zorlukderecesigroup"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_marginTop="20dp"
-                    android:backgroundTint="@color/custom"
-                    android:text="Orta"
-                    android:textColor="@color/white"
-                    android:textSize="18dp"
-                    android:layout_marginRight="5dp"
-                    app:cornerRadius="20dp"
-                    android:layout_weight="1"/>
+                    android:layout_height="wrap_content">
 
-                <Button
-                    android:id="@+id/zor"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:layout_marginTop="20dp"
-                    android:backgroundTint="@color/custom"
-                    android:text="Zor"
-                    android:textColor="@color/white"
-                    android:textSize="18dp"
-                    app:cornerRadius="20dp"
-                    android:layout_weight="1"/>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
 
+
+                        <RadioButton
+                            android:id="@+id/kolay"
+                            android:layout_width="160dp"
+                            android:layout_height="match_parent"
+
+                            android:layout_weight="1"
+                            android:text="Kolay"
+                            android:textColor="@color/custom"
+                            android:textSize="20sp"
+                            android:textStyle="bold" />
+
+                        <RadioButton
+                            android:id="@+id/orta"
+                            android:layout_width="160dp"
+                            android:layout_height="match_parent"
+
+                            android:layout_weight="1"
+                            android:text="Orta"
+                            android:textColor="@color/custom"
+                            android:textSize="20sp"
+                            android:textStyle="bold" />
+
+                        <RadioButton
+                            android:id="@+id/zor"
+                            android:layout_width="179dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:text="Zor"
+                            android:textColor="@color/custom"
+                            android:textSize="20sp"
+                            android:textStyle="bold" />
+
+
+
+                    </LinearLayout>
+
+                </RadioGroup>
 
             </LinearLayout>
 
@@ -166,7 +186,7 @@
         android:layout_height="50dp"
         android:backgroundTint="@color/custom"
         android:layout_margin="20dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:text="Oyna!"
         android:textColor="@color/white"
         android:textSize="18dp"
