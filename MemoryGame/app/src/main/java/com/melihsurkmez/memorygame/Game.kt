@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.os.CountDownTimer
 import android.util.Log
 import android.widget.ImageButton
-
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.melihsurkmez.memorygame.databinding.ActivityGameBinding
@@ -54,7 +53,6 @@ class Game : AppCompatActivity() {
             R.drawable.ic_baseline_lock_24, R.drawable.ic_baseline_email_24,
             R.drawable.ic_baseline_person_24)
         images.addAll(images)
-
         images.addAll(images)
 
 
@@ -143,9 +141,25 @@ class Game : AppCompatActivity() {
 
         }else{
 
-            buttons[index].setImageResource(cards[index].identifier)
-            Thread.sleep(1000)
-            restoreCards()
+            object : CountDownTimer(500, 1000) {
+                override fun onTick(millisUntilFinished: Long) {
+                    for (button in buttons) {    // Başta Kartlar Ters Gözüksün Diye
+                        button.isEnabled = false
+                    }
+                    buttons[index].setImageResource(cards[index].identifier)
+                    buttons[indexOfSingleSelectionCard].setImageResource(cards[indexOfSingleSelectionCard].identifier)
+                }
+
+                override fun onFinish() {
+                    for (button in buttons) {    // Başta Kartlar Ters Gözüksün Diye
+                        button.isEnabled = true
+                    }
+                    restoreCards()
+                    updateViews()
+                }
+            }.start()
+
+
 
         }
     }
