@@ -83,6 +83,46 @@ class Game : AppCompatActivity() {
 
     }
 
+    private fun calculateTrueResult(index :Int){
+
+        var card = cards[index]
+        var totalScore = puan.text.toString().toInt()
+        var timeScore = sayac.text.toString().toInt()
+
+        var calculate = (card.score*2*card.home)*(timeScore/10)
+        calculate = calculate + totalScore
+
+        puan.text = calculate.toString()
+
+    }
+
+    private fun calculateFalseResult(index1 :Int, index2 :Int){
+        var card1 = cards[index1]
+        var card2 = cards[index2]
+        var totalScore = puan.text.toString().toInt()
+        var timeScore = sayac.text.toString().toInt()
+
+        var calculate = 0
+
+        if(card1.home == card2.home){
+
+            calculate = ((card1.score+card2.score)/card1.home)*(timeScore/10)
+            calculate = totalScore-calculate
+
+        }else{
+            calculate = ((((card1.score+card2.score)/2)*card1.home*card2.home))*(timeScore/10)
+            calculate = totalScore-calculate
+
+        }
+
+        if(calculate<0){
+            calculate = 0
+        }
+
+        puan.text = calculate.toString()
+
+    }
+
     private fun updateViews() {
         println("----------------------------------")
         cards.forEachIndexed{index, card->
@@ -139,6 +179,8 @@ class Game : AppCompatActivity() {
             cards[index].isMatched = true
             cards[index].isFaceUp = !cards[index].isFaceUp
 
+            calculateTrueResult(index)
+
         }else{
 
             object : CountDownTimer(500, 1000) {
@@ -146,6 +188,7 @@ class Game : AppCompatActivity() {
                     for (button in buttons) {    // Başta Kartlar Ters Gözüksün Diye
                         button.isEnabled = false
                     }
+                    calculateFalseResult(indexOfSingleSelectionCard, index)
                     buttons[index].setImageResource(cards[index].identifier)
                     buttons[indexOfSingleSelectionCard].setImageResource(cards[indexOfSingleSelectionCard].identifier)
                 }
@@ -170,6 +213,7 @@ class Game : AppCompatActivity() {
         object : CountDownTimer(45000,1000){
             override fun onTick(p0: Long) {
                 binding.sayac.text = "${p0/1000}"
+
             }
 
             override fun onFinish() {
