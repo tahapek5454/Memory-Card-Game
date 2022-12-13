@@ -1,5 +1,8 @@
 package com.melihsurkmez.memorygame
 
+import android.media.AudioManager
+import android.media.MediaPlayer
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
@@ -18,6 +21,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.create
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_game.*
+import java.io.IOException
 
 class Game : AppCompatActivity() {
     lateinit var binding: ActivityGameBinding
@@ -25,6 +29,10 @@ class Game : AppCompatActivity() {
     var buttons = ArrayList<ImageButton>()
     lateinit var cards : List<Card>
     var indexOfSingleSelectionCard : Int? =null
+    var mediaPlayer : MediaPlayer?=null
+    var mpForNope : MediaPlayer?=null
+    var mpForEndFlag = true
+    var mpForEnd : MediaPlayer?=null
 
 
 
@@ -79,7 +87,119 @@ class Game : AppCompatActivity() {
         }
 
         myTimer()
+        playAudio()
 
+
+    }
+
+    private fun playAudioForNope(){
+
+        mpForNope = MediaPlayer()
+        mpForNope!!.setAudioStreamType(AudioManager.STREAM_MUSIC)
+
+        try {
+            mpForNope!!.setDataSource(this, Uri.parse("android.resource://"+this.packageName+"/"+R.raw.nope))
+            mpForNope!!.prepare()
+            mpForNope!!.start()
+
+        }catch (e: IOException){
+            println("Hata")
+        }
+
+    }
+
+    private fun stopAudioForNope(){
+        if(mpForNope!!.isPlaying){
+            mpForNope!!.stop()
+            mpForNope!!.reset()
+            mpForNope!!.release()
+        }
+    }
+
+    private fun playAudioForEnd(){
+
+        mpForEnd = MediaPlayer()
+        mpForEnd!!.setAudioStreamType(AudioManager.STREAM_MUSIC)
+
+        try {
+            mpForEnd!!.setDataSource(this, Uri.parse("android.resource://"+this.packageName+"/"+R.raw.yeter))
+            mpForEnd!!.prepare()
+            mpForEnd!!.start()
+
+        }catch (e: IOException){
+            println("Hata")
+        }
+    }
+
+    private fun stopAudioForEnd(){
+        if(mpForEnd!!.isPlaying){
+            mpForEnd!!.stop()
+            mpForEnd!!.reset()
+            mpForEnd!!.release()
+        }
+    }
+
+
+    private fun playAudio(){
+
+        mediaPlayer = MediaPlayer()
+        mediaPlayer!!.setAudioStreamType(AudioManager.STREAM_MUSIC)
+
+        try {
+            mediaPlayer!!.setDataSource(this, Uri.parse("android.resource://"+this.packageName+"/"+R.raw.vodka))
+            mediaPlayer!!.prepare()
+            mediaPlayer!!.start()
+
+        }catch (e: IOException){
+            println("Hata")
+        }
+    }
+
+    private fun stopAudio(){
+        if(mediaPlayer!!.isPlaying){
+            mediaPlayer!!.stop()
+            mediaPlayer!!.reset()
+            mediaPlayer!!.release()
+        }
+    }
+
+    private fun calculateTrueResult(index :Int){
+
+        var card = cards[index]
+        var totalScore = puan.text.toString().toInt()
+        var timeScore = sayac.text.toString().toInt()
+
+        var calculate = (card.score*2*card.home)*(timeScore/10)
+        calculate = calculate + totalScore
+
+        puan.text = calculate.toString()
+
+    }
+
+    private fun calculateFalseResult(index1 :Int, index2 :Int){
+        var card1 = cards[index1]
+        var card2 = cards[index2]
+        var totalScore = puan.text.toString().toInt()
+        var timeScore = sayac.text.toString().toInt()
+
+        var calculate = 0
+
+        if(card1.home == card2.home){
+
+            calculate = ((card1.score+card2.score)/card1.home)*(timeScore/10)
+            calculate = totalScore-calculate
+
+        }else{
+            calculate = ((((card1.score+card2.score)/2)*card1.home*card2.home))*(timeScore/10)
+            calculate = totalScore-calculate
+
+        }
+
+        if(calculate<0){
+            calculate = 0
+        }
+
+        puan.text = calculate.toString()
 
     }
 
@@ -139,15 +259,19 @@ class Game : AppCompatActivity() {
             cards[index].isMatched = true
             cards[index].isFaceUp = !cards[index].isFaceUp
 
+            calculateTrueResult(index)
+
         }else{
 
-            object : CountDownTimer(500, 1000) {
+            object : CountDownTimer(1000, 1000) {
                 override fun onTick(millisUntilFinished: Long) {
                     for (button in buttons) {    // Başta Kartlar Ters Gözüksün Diye
                         button.isEnabled = false
                     }
+                    calculateFalseResult(indexOfSingleSelectionCard, index)
                     buttons[index].setImageResource(cards[index].identifier)
                     buttons[indexOfSingleSelectionCard].setImageResource(cards[indexOfSingleSelectionCard].identifier)
+                    playAudioForNope()
                 }
 
                 override fun onFinish() {
@@ -156,6 +280,7 @@ class Game : AppCompatActivity() {
                     }
                     restoreCards()
                     updateViews()
+                    stopAudioForNope()
                 }
             }.start()
 
@@ -170,10 +295,18 @@ class Game : AppCompatActivity() {
         object : CountDownTimer(45000,1000){
             override fun onTick(p0: Long) {
                 binding.sayac.text = "${p0/1000}"
+
+                if((p0/1000)<10 && mpForEndFlag){
+                    playAudioForEnd()
+                    mpForEndFlag = false
+                }
+
             }
 
             override fun onFinish() {
                 binding.sayac.text = "0"
+                stopAudioForEnd()
+                stopAudio()
             }
 
         }.start()
