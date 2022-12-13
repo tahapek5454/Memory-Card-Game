@@ -8,4 +8,5 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="custom">#272727</color>
+    <color name="sert_grey">#21130d</color>
 </resources>
