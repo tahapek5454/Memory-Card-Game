@@ -48,7 +48,7 @@ class Game : AppCompatActivity() {
         buttons.add(imageButton14)
         buttons.add(imageButton15)
         buttons.add(imageButton16)
-
+        get_data()
         var images = mutableListOf(R.drawable.ic_baseline_password_24,
             R.drawable.ic_baseline_lock_24, R.drawable.ic_baseline_email_24,
             R.drawable.ic_baseline_person_24)
@@ -208,7 +208,7 @@ class Game : AppCompatActivity() {
             }
 
             override fun onFailure(call: Call<List<CardsItem>?>, t: Throwable) {
-                println(t.message)
+                Log.e("Error",t.toString())
             }
         })
 
