@@ -172,6 +172,7 @@ class Game : AppCompatActivity() {
         var calculate = (card.score*2*card.home)*(timeScore/10)
         calculate = calculate + totalScore
 
+
         puan.text = calculate.toString()
 
     }
@@ -220,6 +221,7 @@ class Game : AppCompatActivity() {
 
     private fun updateModel(index: Int) {
         var card = cards[index]
+
 
         if(card.isFaceUp){
             Toast.makeText(this, "Bu kart zaten secili", Toast.LENGTH_SHORT).show()
