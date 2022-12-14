@@ -174,6 +174,12 @@ class Game : AppCompatActivity() {
 
         puan.text = calculate.toString()
 
+        val text: String = binding.succesLogs.text.toString()
+
+        val new_text: String ="Karakter"+":"+card.name+" Kazandırdığı Puan:"+calculate+" Evi:"+card.home
+
+
+
     }
 
     private fun calculateFalseResult(index1 :Int, index2 :Int){
@@ -331,12 +337,14 @@ class Game : AppCompatActivity() {
                 val responseBody = response.body()!!
                 val myStringBuilder = StringBuilder()
                 for(Cards in responseBody){
-                    myStringBuilder.append(Cards.cardId)
-                    myStringBuilder.append("\n")
+                    val card_id: Int = Cards.cardId
+                    val card_name: String = Cards.cardName
+                    val card_home: String = Cards.homeName
+                    val card_score: Int = Cards.cardScore
+
+                    println(card_id.toString()+" "+ card_name+" "+card_home+" "+card_score.toString())
+
                 }
-
-                println(myStringBuilder)
-
 
             }
 
