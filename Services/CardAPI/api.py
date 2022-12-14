@@ -22,7 +22,7 @@ def getCardsFromDb():
             myDict["cardScore"]=i[2]
             myDict["homeName"]=i[3]
             myDict["homeScore"]=i[4]
-            myDict["image"]=i[5]
+            
 
             response.append(myDict)
 
