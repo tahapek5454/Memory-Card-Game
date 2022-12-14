@@ -253,8 +253,8 @@
     <EditText
         android:id="@+id/succes_logs"
         android:layout_width="match_parent"
-        android:layout_height="160dp"
-        android:layout_marginTop="10dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="75dp"
         android:background="@drawable/back"
         android:ems="10"
         android:gravity="center|top"
