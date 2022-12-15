@@ -266,36 +266,5 @@
             app:srcCompat="@drawable/arka" />
     </GridLayout>
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAlignment="center"
-        android:textColor="@color/sert_grey"
-        android:text="Başarılı Hamleler"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        >
-
-
-
-    </EditText>
-
-
-    <EditText
-        android:id="@+id/succes_logs"
-        android:layout_width="match_parent"
-        android:layout_marginTop="10dp"
-        android:layout_height="200dp"
-        android:ems="10"
-        android:gravity="center|top"
-        android:inputType="textMultiLine"
-        android:background="@color/custom"
-        android:textSize="15dp"
-        android:text="Harry Potter Puan:10 Ev: Gryfinndor"
-        android:textStyle="bold"
-
-        android:textColor="@color/white" />
-
-
 </LinearLayout>
 

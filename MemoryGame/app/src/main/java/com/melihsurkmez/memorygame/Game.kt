@@ -1,12 +1,12 @@
 package com.melihsurkmez.memorygame
 
+import android.content.DialogInterface
 import android.media.AudioManager
 import android.media.MediaPlayer
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
-import android.os.Handler
 import android.util.Log
 import android.widget.ImageButton
 import com.android.volley.toolbox.StringRequest
@@ -21,6 +21,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.create
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import kotlinx.android.synthetic.main.activity_game.*
 import java.io.IOException
 
@@ -29,21 +30,25 @@ class Game : AppCompatActivity() {
     //Butonlarimizin listesi burada olucak
     var buttons = ArrayList<ImageButton>()
     var cards = ArrayList<Card>()
+    var cards2 = ArrayList<Card>()
     var indexOfSingleSelectionCard : Int? =null
     var mediaPlayer : MediaPlayer?=null
     var mpForNope : MediaPlayer?=null
     var mpForEndFlag = true
     var mpForEnd : MediaPlayer?=null
-    var runnable: Runnable = Runnable { }
-    var handler = Handler()
+
+    var homeName1Counter =0
+    var homeName2Counter =0
+    var homeName3Counter =0
+    var homeName4Counter=0
+
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding=ActivityGameBinding.inflate(layoutInflater)
-
         setContentView(binding.root)
-        println(cards.size)
         buttons.add(imageButton)
         buttons.add(imageButton2)
         buttons.add(imageButton3)
@@ -75,28 +80,115 @@ class Game : AppCompatActivity() {
             ,R.drawable.kirkdort)
 
 
+        object : CountDownTimer(8000, 8000) {
+            override fun onTick(millisUntilFinished: Long) {
+                for (button in buttons) {    // Başta Kartlar Ters Gözüksün Diye
+                    button.isEnabled = false
+                }
 
-        // veriyi aldık
-
-
-        // bu veri indexli sırali bir sekilde cardss a eklendi
-
-        // biz eklenen cards lara sırasıyla image atıcaz
-
-        // image isinlerini boyle sırasıyla atsak
-
-        cards.forEachIndexed{index, card ->
-            card.image = images[index]
-        }
-        // artik cards icersinde tum cardlar var
-
-        // simdi sira karistirmakta
-        cards.shuffle()
-
-        // karistirdik da artik kartlar buttonlarla index ile iliskili davrnacak
+                // veriyi aldık
+                get_data()
+                // bu veri indexli sırali bir sekilde cardss a eklendi
 
 
-        // sonra kartlari sufflela
+            }
+
+            override fun onFinish() {
+                for (button in buttons) {    // Başta Kartlar Ters Gözüksün Diye
+                    button.isEnabled = true
+                }
+
+
+
+                // biz eklenen cards lara sırasıyla image atıcaz
+
+                // image isinlerini boyle sırasıyla atsak
+
+                println("cards2 size : "+cards2.size)
+
+                cards2.forEachIndexed{index, card2 ->
+                    // println("Eklenen index "+index)
+                    card2.image = images[index]
+                }
+                // artik cards icersinde tum cardlar var
+
+                // simdi sira karistirmakta
+                cards2.shuffle()
+
+                var i = 0
+                while(cards.size < buttons.size){
+
+                    var temp = Card(name = cards2[i].name, score=cards2[i].score, home = cards2[i].home, image = cards2[i].image, homeName = cards2[i].homeName)
+
+                    if(temp.homeName == "Gryffindor"){
+
+                        if(homeName1Counter < 2){
+                            cards.add(temp)
+                            var temp2 = Card(name = cards2[i].name, score=cards2[i].score, home = cards2[i].home, image = cards2[i].image, homeName = cards2[i].homeName)
+                            cards.add(temp2)
+                            homeName1Counter+=1
+
+                        }
+                    }else if(temp.homeName == "Slytherin"){
+
+                        if(homeName2Counter < 2){
+                            cards.add(temp)
+                            var temp2 = Card(name = cards2[i].name, score=cards2[i].score, home = cards2[i].home, image = cards2[i].image, homeName = cards2[i].homeName)
+                            cards.add(temp2)
+                            homeName2Counter+=1
+                        }
+                    }else if(temp.homeName == "Hufflepuff"){
+                        if(homeName3Counter <2){
+                            cards.add(temp)
+                            var temp2 = Card(name = cards2[i].name, score=cards2[i].score, home = cards2[i].home, image = cards2[i].image, homeName = cards2[i].homeName)
+                            cards.add(temp2)
+                            homeName3Counter+=1
+                        }
+                    }else if(temp.homeName == "Ravenclaw"){
+                        if(homeName4Counter <2){
+                            cards.add(temp)
+                            var temp2 = Card(name = cards2[i].name, score=cards2[i].score, home = cards2[i].home, image = cards2[i].image, homeName = cards2[i].homeName)
+                            cards.add(temp2)
+                            homeName4Counter+=1
+                        }
+                    }
+
+                    i+=1
+
+                }
+
+                // for(i in 0..(buttons.size/2)-1){
+                // var temp = Card(name = cards2[i].name, score=cards2[i].score, home = cards2[i].home, image = cards2[i].image, homeName = cards2[i].homeName)
+                // cards.add(temp)
+                // }
+
+                //for(i in 0..(buttons.size/2)-1){
+                // var temp = Card(name = cards2[i].name, score=cards2[i].score, home = cards2[i].home, image = cards2[i].image, homeName = cards2[i].homeName)
+                // cards.add(temp)
+                // }
+
+
+                cards.shuffle()
+
+                cards.forEachIndexed { index, card->
+                    println("Index-> "+index+ " CardName-> "+card.name + " -CardHome Name "+card.homeName)
+                }
+
+                println("cards Sizee :  "+cards.size)
+
+                // karistirdik da artik kartlar buttonlarla index ile iliskili davrnacak
+
+
+                // sonra kartlari sufflela
+
+
+                myTimer()
+                playAudio()
+
+            }
+        }.start()
+
+
 
 
 
@@ -110,21 +202,40 @@ class Game : AppCompatActivity() {
         //    Card(images[index])
         //}
 
-
         buttons.forEachIndexed { index, button ->
             button.setOnClickListener {
 
-               updateModel(index)
+                updateModel(index)
 
                 updateViews()
 
 
             }
         }
+    }
 
-        myTimer()
-        playAudio()
+    private fun oyunBittiBasarili(){
+        val uyari = AlertDialog.Builder(this)
+        uyari.setTitle("Tebrikler Oyunu Kazandiriniz")
+        uyari.setMessage("Puaninizi : "+puan.text)
+        uyari.setMessage("Butona Tiklayarak Ana Menuye Gidebilirsiniz")
+        uyari.setPositiveButton("Git",DialogInterface.OnClickListener { dialogInterface, i ->
+            Toast.makeText(this, "Ana Menuye yonledirme eklenecek", Toast.LENGTH_LONG).show()
+        })
+        uyari.show()
 
+    }
+
+    private fun oyunBittiBasarisiz(){
+        val uyari = AlertDialog.Builder(this)
+        uyari.setTitle("Maalesef Oyunu Kazanamadiniz")
+        uyari.setMessage("Puaninizi : "+puan.text)
+        uyari.setMessage("Butona Tiklayarak Ana Menuye Gidebilirsiniz")
+        uyari.setNegativeButton("Git",DialogInterface.OnClickListener { dialogInterface, i ->
+            Toast.makeText(this, "Ana Menuye yonledirme eklenecek", Toast.LENGTH_LONG).show()
+        })
+
+        uyari.show()
 
     }
 
@@ -211,7 +322,7 @@ class Game : AppCompatActivity() {
 
         puan.text = calculate.toString()
 
-        val text: String = binding.succesLogs.text.toString()
+        // val text: String = binding.succesLogs.text.toString()
 
         val new_text: String ="Karakter"+":"+card.name+" Kazandırdığı Puan:"+calculate+" Evi:"+card.home
 
@@ -247,13 +358,14 @@ class Game : AppCompatActivity() {
     }
 
     private fun updateViews() {
-        println("----------------------------------")
+
         cards.forEachIndexed{index, card->
             var button = buttons[index]
 
             if(card.isFaceUp){
 
-                println("Gozukmeli")
+                println("Index-->> "+index+ "Olan kartin imageini degistirdim ismi de -> "+card.name)
+
                 button.setImageResource(card.image)
             }else{
                 button.setImageResource(R.drawable.arka)
@@ -263,6 +375,10 @@ class Game : AppCompatActivity() {
 
     private fun updateModel(index: Int) {
         var card = cards[index]
+        //println("Cards[index] lengt "+cards.size)
+
+
+        //println("Tiklanan Kart'in adi "+card.name+ "Tiklanan kartin indexi "+index)
 
 
         if(card.isFaceUp){
@@ -274,6 +390,15 @@ class Game : AppCompatActivity() {
             restoreCards()
             indexOfSingleSelectionCard = index
             card.isFaceUp = !card.isFaceUp
+            //println("FaceUpladim")
+            // println(card)
+            //cards.forEachIndexed{index, card ->
+            // if(card.isFaceUp){
+            //   println("FaceUp olan kartin indexi-> "+index+ " Adi ->"+card.name)
+            //  println(card)
+            // }
+            // }
+
         }else{
             checkForMatch(indexOfSingleSelectionCard!!, index)
             indexOfSingleSelectionCard = null
@@ -302,8 +427,23 @@ class Game : AppCompatActivity() {
             cards[indexOfSingleSelectionCard].isMatched = true
             cards[index].isMatched = true
             cards[index].isFaceUp = !cards[index].isFaceUp
-
+            updateViews()
             calculateTrueResult(index)
+
+            var bittimi = 1
+            for(card in cards){
+
+                if(!card.isMatched){
+
+                    bittimi = 0
+                    break
+
+                }
+            }
+
+            if(bittimi==1){
+                oyunBittiBasarili()
+            }
 
         }else{
 
@@ -313,8 +453,8 @@ class Game : AppCompatActivity() {
                         button.isEnabled = false
                     }
                     calculateFalseResult(indexOfSingleSelectionCard, index)
-                    buttons[index].setImageResource(cards[index].identifier)
-                    buttons[indexOfSingleSelectionCard].setImageResource(cards[indexOfSingleSelectionCard].identifier)
+                    buttons[index].setImageResource(cards[index].image)
+                    buttons[indexOfSingleSelectionCard].setImageResource(cards[indexOfSingleSelectionCard].image)
                     playAudioForNope()
                 }
 
@@ -351,12 +491,13 @@ class Game : AppCompatActivity() {
                 binding.sayac.text = "0"
                 stopAudioForEnd()
                 stopAudio()
+                oyunBittiBasarisiz()
             }
 
         }.start()
     }
 
-    async fun get_data(){
+    fun get_data() {
 
         val retrofitBuilder = Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create())
@@ -378,15 +519,13 @@ class Game : AppCompatActivity() {
                     val card_id: Int = Cards.cardId
                     val card_name: String = Cards.cardName
                     val card_home: String = Cards.homeName
-                    val home_score: Int = Cards.homeScore
                     val card_score: Int = Cards.cardScore
+                    val home_score : Int = Cards.homeScore
+                    var addedCard = Card(name=card_name, score=card_score, homeName = card_home, home = home_score)
+                    // println(card_id.toString()+" "+ card_name+" "+card_home+" "+card_score.toString()+" "+home_score.toString())
+                    cards2.add(addedCard)
 
-                    var addedCard = Card(identifier=card_id, name=card_name, score=card_score, home = home_score, home_name = card_home)
 
-                    println(addedCard.home)
-
-                    println(card_id.toString()+" "+ card_name+" "+card_home+" "+card_score.toString()+" "+home_score.toString())
-                    cards.add(addedCard)
 
                 }
 
@@ -395,11 +534,7 @@ class Game : AppCompatActivity() {
             override fun onFailure(call: Call<List<CardsItem>?>, t: Throwable) {
                 Log.e("Error",t.toString())
             }
-        }
-
-
-
-        )
+        })
 
 
 
