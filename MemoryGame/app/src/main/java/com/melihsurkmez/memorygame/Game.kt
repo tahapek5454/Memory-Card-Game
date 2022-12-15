@@ -1,5 +1,6 @@
 package com.melihsurkmez.memorygame
 
+import android.content.DialogInterface
 import android.media.AudioManager
 import android.media.MediaPlayer
 import android.net.Uri
@@ -20,6 +21,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.create
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import kotlinx.android.synthetic.main.activity_game.*
 import java.io.IOException
 
@@ -153,12 +155,6 @@ class Game : AppCompatActivity() {
         //    Card(images[index])
         //}
 
-
-
-        denemeBtn.setOnClickListener{
-            println("Deneme Butonundan geliyorm "+cards[0].name)
-        }
-
         buttons.forEachIndexed { index, button ->
             button.setOnClickListener {
 
@@ -169,6 +165,31 @@ class Game : AppCompatActivity() {
 
             }
         }
+    }
+
+    private fun oyunBittiBasarili(){
+        val uyari = AlertDialog.Builder(this)
+        uyari.setTitle("Tebrikler Oyunu Kazandiriniz")
+        uyari.setMessage("Puaninizi : "+puan.text)
+        uyari.setMessage("Butona Tiklayarak Ana Menuye Gidebilirsiniz")
+        uyari.setPositiveButton("Git",DialogInterface.OnClickListener { dialogInterface, i ->
+            Toast.makeText(this, "Ana Menuye yonledirme eklenecek", Toast.LENGTH_LONG).show()
+        })
+        uyari.show()
+
+    }
+
+    private fun oyunBittiBasarisiz(){
+        val uyari = AlertDialog.Builder(this)
+        uyari.setTitle("Maalesef Oyunu Kazanamadiniz")
+        uyari.setMessage("Puaninizi : "+puan.text)
+        uyari.setMessage("Butona Tiklayarak Ana Menuye Gidebilirsiniz")
+        uyari.setNegativeButton("Git",DialogInterface.OnClickListener { dialogInterface, i ->
+            Toast.makeText(this, "Ana Menuye yonledirme eklenecek", Toast.LENGTH_LONG).show()
+        })
+
+        uyari.show()
+
     }
 
     private fun playAudioForNope(){
@@ -307,10 +328,10 @@ class Game : AppCompatActivity() {
 
     private fun updateModel(index: Int) {
         var card = cards[index]
-        println("Cards[index] lengt "+cards.size)
+        //println("Cards[index] lengt "+cards.size)
 
 
-        println("Tiklanan Kart'in adi "+card.name+ "Tiklanan kartin indexi "+index)
+        //println("Tiklanan Kart'in adi "+card.name+ "Tiklanan kartin indexi "+index)
 
 
         if(card.isFaceUp){
@@ -322,14 +343,14 @@ class Game : AppCompatActivity() {
             restoreCards()
             indexOfSingleSelectionCard = index
             card.isFaceUp = !card.isFaceUp
-            println("FaceUpladim")
-            println(card)
-            cards.forEachIndexed{index, card ->
-                if(card.isFaceUp){
-                    println("FaceUp olan kartin indexi-> "+index+ " Adi ->"+card.name)
-                    println(card)
-                }
-            }
+            //println("FaceUpladim")
+           // println(card)
+            //cards.forEachIndexed{index, card ->
+               // if(card.isFaceUp){
+                 //   println("FaceUp olan kartin indexi-> "+index+ " Adi ->"+card.name)
+                  //  println(card)
+               // }
+           // }
 
         }else{
             checkForMatch(indexOfSingleSelectionCard!!, index)
@@ -359,8 +380,23 @@ class Game : AppCompatActivity() {
             cards[indexOfSingleSelectionCard].isMatched = true
             cards[index].isMatched = true
             cards[index].isFaceUp = !cards[index].isFaceUp
-
+            updateViews()
             calculateTrueResult(index)
+
+            var bittimi = 1
+            for(card in cards){
+
+                if(!card.isMatched){
+
+                    bittimi = 0
+                    break
+
+                }
+            }
+
+            if(bittimi==1){
+                oyunBittiBasarili()
+            }
 
         }else{
 
@@ -408,6 +444,7 @@ class Game : AppCompatActivity() {
                 binding.sayac.text = "0"
                 stopAudioForEnd()
                 stopAudio()
+                oyunBittiBasarisiz()
             }
 
         }.start()
