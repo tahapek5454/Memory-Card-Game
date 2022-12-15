@@ -28,6 +28,7 @@ class Game : AppCompatActivity() {
     //Butonlarimizin listesi burada olucak
     var buttons = ArrayList<ImageButton>()
     var cards = ArrayList<Card>()
+    var cards2 = ArrayList<Card>()
     var indexOfSingleSelectionCard : Int? =null
     var mediaPlayer : MediaPlayer?=null
     var mpForNope : MediaPlayer?=null
@@ -71,28 +72,74 @@ class Game : AppCompatActivity() {
             ,R.drawable.kirkdort)
 
 
+        object : CountDownTimer(8000, 8000) {
+            override fun onTick(millisUntilFinished: Long) {
+                for (button in buttons) {    // Başta Kartlar Ters Gözüksün Diye
+                    button.isEnabled = false
+                }
 
-        // veriyi aldık
-        // get_data()
-
-        // bu veri indexli sırali bir sekilde cardss a eklendi
-
-        // biz eklenen cards lara sırasıyla image atıcaz
-
-        // image isinlerini boyle sırasıyla atsak
-
-        cards.forEachIndexed{index, card ->
-            card.image = images[index]
-        }
-        // artik cards icersinde tum cardlar var
-
-        // simdi sira karistirmakta
-        cards.shuffle()
-
-        // karistirdik da artik kartlar buttonlarla index ile iliskili davrnacak
+                // veriyi aldık
+                get_data()
+                // bu veri indexli sırali bir sekilde cardss a eklendi
 
 
-        // sonra kartlari sufflela
+            }
+
+            override fun onFinish() {
+                for (button in buttons) {    // Başta Kartlar Ters Gözüksün Diye
+                    button.isEnabled = true
+                }
+
+
+
+                // biz eklenen cards lara sırasıyla image atıcaz
+
+                // image isinlerini boyle sırasıyla atsak
+
+                println("cards2 size : "+cards2.size)
+
+                cards2.forEachIndexed{index, card2 ->
+                    // println("Eklenen index "+index)
+                    card2.image = images[index]
+                }
+                // artik cards icersinde tum cardlar var
+
+                // simdi sira karistirmakta
+                cards2.shuffle()
+
+
+                for(i in 0..(buttons.size/2)-1){
+                    var temp = Card(name = cards2[i].name, score=cards2[i].score, home = cards2[i].home, image = cards2[i].image, homeName = cards2[i].homeName)
+                    cards.add(temp)
+                }
+
+                for(i in 0..(buttons.size/2)-1){
+                    var temp = Card(name = cards2[i].name, score=cards2[i].score, home = cards2[i].home, image = cards2[i].image, homeName = cards2[i].homeName)
+                    cards.add(temp)
+                }
+
+
+                cards.shuffle()
+
+                cards.forEachIndexed { index, card->
+                    println("Index-> "+index+ " CardName-> "+card.name)
+                }
+
+                println("cards Sizee :  "+cards.size)
+
+                // karistirdik da artik kartlar buttonlarla index ile iliskili davrnacak
+
+
+                // sonra kartlari sufflela
+
+
+                myTimer()
+                playAudio()
+
+            }
+        }.start()
+
+
 
 
 
@@ -107,21 +154,21 @@ class Game : AppCompatActivity() {
         //}
 
 
+
+        denemeBtn.setOnClickListener{
+            println("Deneme Butonundan geliyorm "+cards[0].name)
+        }
+
         buttons.forEachIndexed { index, button ->
             button.setOnClickListener {
 
-               updateModel(index)
+                updateModel(index)
 
                 updateViews()
 
 
             }
         }
-
-        myTimer()
-        playAudio()
-
-
     }
 
     private fun playAudioForNope(){
@@ -207,7 +254,7 @@ class Game : AppCompatActivity() {
 
         puan.text = calculate.toString()
 
-        val text: String = binding.succesLogs.text.toString()
+        // val text: String = binding.succesLogs.text.toString()
 
         val new_text: String ="Karakter"+":"+card.name+" Kazandırdığı Puan:"+calculate+" Evi:"+card.home
 
@@ -243,13 +290,14 @@ class Game : AppCompatActivity() {
     }
 
     private fun updateViews() {
-        println("----------------------------------")
+
         cards.forEachIndexed{index, card->
             var button = buttons[index]
 
             if(card.isFaceUp){
 
-                println("Gozukmeli")
+                println("Index-->> "+index+ "Olan kartin imageini degistirdim ismi de -> "+card.name)
+
                 button.setImageResource(card.image)
             }else{
                 button.setImageResource(R.drawable.arka)
@@ -259,6 +307,10 @@ class Game : AppCompatActivity() {
 
     private fun updateModel(index: Int) {
         var card = cards[index]
+        println("Cards[index] lengt "+cards.size)
+
+
+        println("Tiklanan Kart'in adi "+card.name+ "Tiklanan kartin indexi "+index)
 
 
         if(card.isFaceUp){
@@ -270,6 +322,15 @@ class Game : AppCompatActivity() {
             restoreCards()
             indexOfSingleSelectionCard = index
             card.isFaceUp = !card.isFaceUp
+            println("FaceUpladim")
+            println(card)
+            cards.forEachIndexed{index, card ->
+                if(card.isFaceUp){
+                    println("FaceUp olan kartin indexi-> "+index+ " Adi ->"+card.name)
+                    println(card)
+                }
+            }
+
         }else{
             checkForMatch(indexOfSingleSelectionCard!!, index)
             indexOfSingleSelectionCard = null
@@ -309,8 +370,8 @@ class Game : AppCompatActivity() {
                         button.isEnabled = false
                     }
                     calculateFalseResult(indexOfSingleSelectionCard, index)
-                    buttons[index].setImageResource(cards[index].identifier)
-                    buttons[indexOfSingleSelectionCard].setImageResource(cards[indexOfSingleSelectionCard].identifier)
+                    buttons[index].setImageResource(cards[index].image)
+                    buttons[indexOfSingleSelectionCard].setImageResource(cards[indexOfSingleSelectionCard].image)
                     playAudioForNope()
                 }
 
@@ -356,7 +417,7 @@ class Game : AppCompatActivity() {
 
         val retrofitBuilder = Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create())
-            .baseUrl("http://127.0.0.1:5001/")
+            .baseUrl("http://192.168.1.102:5001")
             .build()
             .create(ApiInterface::class.java)
 
@@ -375,9 +436,10 @@ class Game : AppCompatActivity() {
                     val card_name: String = Cards.cardName
                     val card_home: String = Cards.homeName
                     val card_score: Int = Cards.cardScore
-                    var addedCard = Card(identifier=card_id, name=card_name, score=card_score, home = card_home.toInt())
-                    println(card_id.toString()+" "+ card_name+" "+card_home+" "+card_score.toString())
-                    cards.add(addedCard)
+                    val home_score : Int = Cards.homeScore
+                    var addedCard = Card(name=card_name, score=card_score, homeName = card_home, home = home_score)
+                    // println(card_id.toString()+" "+ card_name+" "+card_home+" "+card_score.toString()+" "+home_score.toString())
+                    cards2.add(addedCard)
 
 
 
