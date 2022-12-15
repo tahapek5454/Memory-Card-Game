@@ -6,6 +6,7 @@ import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.os.Handler
 import android.util.Log
 import android.widget.ImageButton
 import com.android.volley.toolbox.StringRequest
@@ -33,13 +34,16 @@ class Game : AppCompatActivity() {
     var mpForNope : MediaPlayer?=null
     var mpForEndFlag = true
     var mpForEnd : MediaPlayer?=null
-
+    var runnable: Runnable = Runnable { }
+    var handler = Handler()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding=ActivityGameBinding.inflate(layoutInflater)
+
         setContentView(binding.root)
+        println(cards.size)
         buttons.add(imageButton)
         buttons.add(imageButton2)
         buttons.add(imageButton3)
@@ -73,7 +77,7 @@ class Game : AppCompatActivity() {
 
 
         // veriyi aldık
-        // get_data()
+
 
         // bu veri indexli sırali bir sekilde cardss a eklendi
 
@@ -352,11 +356,11 @@ class Game : AppCompatActivity() {
         }.start()
     }
 
-    fun get_data() {
+    async fun get_data(){
 
         val retrofitBuilder = Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create())
-            .baseUrl("http://127.0.0.1:5001/")
+            .baseUrl("http://192.168.1.101:5001/")
             .build()
             .create(ApiInterface::class.java)
 
@@ -374,12 +378,15 @@ class Game : AppCompatActivity() {
                     val card_id: Int = Cards.cardId
                     val card_name: String = Cards.cardName
                     val card_home: String = Cards.homeName
+                    val home_score: Int = Cards.homeScore
                     val card_score: Int = Cards.cardScore
-                    var addedCard = Card(identifier=card_id, name=card_name, score=card_score, home = card_home.toInt())
-                    println(card_id.toString()+" "+ card_name+" "+card_home+" "+card_score.toString())
+
+                    var addedCard = Card(identifier=card_id, name=card_name, score=card_score, home = home_score, home_name = card_home)
+
+                    println(addedCard.home)
+
+                    println(card_id.toString()+" "+ card_name+" "+card_home+" "+card_score.toString()+" "+home_score.toString())
                     cards.add(addedCard)
-
-
 
                 }
 
@@ -388,7 +395,11 @@ class Game : AppCompatActivity() {
             override fun onFailure(call: Call<List<CardsItem>?>, t: Throwable) {
                 Log.e("Error",t.toString())
             }
-        })
+        }
+
+
+
+        )
 
 
 
