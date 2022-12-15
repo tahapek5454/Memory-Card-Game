@@ -37,6 +37,12 @@ class Game : AppCompatActivity() {
     var mpForEndFlag = true
     var mpForEnd : MediaPlayer?=null
 
+    var homeName1Counter =0
+    var homeName2Counter =0
+    var homeName3Counter =0
+    var homeName4Counter=0
+
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -109,22 +115,63 @@ class Game : AppCompatActivity() {
                 // simdi sira karistirmakta
                 cards2.shuffle()
 
+                var i = 0
+                while(cards.size < buttons.size){
 
-                for(i in 0..(buttons.size/2)-1){
                     var temp = Card(name = cards2[i].name, score=cards2[i].score, home = cards2[i].home, image = cards2[i].image, homeName = cards2[i].homeName)
-                    cards.add(temp)
+
+                    if(temp.homeName == "Gryffindor"){
+
+                        if(homeName1Counter < 2){
+                            cards.add(temp)
+                            var temp2 = Card(name = cards2[i].name, score=cards2[i].score, home = cards2[i].home, image = cards2[i].image, homeName = cards2[i].homeName)
+                            cards.add(temp2)
+                            homeName1Counter+=1
+
+                        }
+                    }else if(temp.homeName == "Slytherin"){
+
+                        if(homeName2Counter < 2){
+                            cards.add(temp)
+                            var temp2 = Card(name = cards2[i].name, score=cards2[i].score, home = cards2[i].home, image = cards2[i].image, homeName = cards2[i].homeName)
+                            cards.add(temp2)
+                            homeName2Counter+=1
+                        }
+                    }else if(temp.homeName == "Hufflepuff"){
+                        if(homeName3Counter <2){
+                            cards.add(temp)
+                            var temp2 = Card(name = cards2[i].name, score=cards2[i].score, home = cards2[i].home, image = cards2[i].image, homeName = cards2[i].homeName)
+                            cards.add(temp2)
+                            homeName3Counter+=1
+                        }
+                    }else if(temp.homeName == "Ravenclaw"){
+                        if(homeName4Counter <2){
+                            cards.add(temp)
+                            var temp2 = Card(name = cards2[i].name, score=cards2[i].score, home = cards2[i].home, image = cards2[i].image, homeName = cards2[i].homeName)
+                            cards.add(temp2)
+                            homeName4Counter+=1
+                        }
+                    }
+
+                    i+=1
+
                 }
 
-                for(i in 0..(buttons.size/2)-1){
-                    var temp = Card(name = cards2[i].name, score=cards2[i].score, home = cards2[i].home, image = cards2[i].image, homeName = cards2[i].homeName)
-                    cards.add(temp)
-                }
+               // for(i in 0..(buttons.size/2)-1){
+                   // var temp = Card(name = cards2[i].name, score=cards2[i].score, home = cards2[i].home, image = cards2[i].image, homeName = cards2[i].homeName)
+                   // cards.add(temp)
+               // }
+
+                //for(i in 0..(buttons.size/2)-1){
+                   // var temp = Card(name = cards2[i].name, score=cards2[i].score, home = cards2[i].home, image = cards2[i].image, homeName = cards2[i].homeName)
+                   // cards.add(temp)
+               // }
 
 
                 cards.shuffle()
 
                 cards.forEachIndexed { index, card->
-                    println("Index-> "+index+ " CardName-> "+card.name)
+                    println("Index-> "+index+ " CardName-> "+card.name + " -CardHome Name "+card.homeName)
                 }
 
                 println("cards Sizee :  "+cards.size)
