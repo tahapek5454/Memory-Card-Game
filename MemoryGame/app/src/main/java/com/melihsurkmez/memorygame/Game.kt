@@ -30,7 +30,7 @@ class Game : AppCompatActivity() {
     lateinit var binding: ActivityGameBinding
     //Butonlarimizin listesi burada olucak
     var buttons = ArrayList<ImageButton>()
-
+    lateinit var timer : CountDownTimer
     var cards = ArrayList<Card>()
     var cards2 = ArrayList<Card>()
     var indexOfSingleSelectionCard : Int? =null
@@ -38,6 +38,8 @@ class Game : AppCompatActivity() {
     var mpForNope : MediaPlayer?=null
     var mpForEndFlag = true
     var mpForEnd : MediaPlayer?=null
+
+
 
     var homeName1Counter =0
     var homeName2Counter =0
@@ -51,6 +53,8 @@ class Game : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding=ActivityGameBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+
         val arrayList = intent.getSerializableExtra("cards") as ArrayList<Card>
         cards2=arrayList
         println(arrayList.size)
@@ -85,105 +89,91 @@ class Game : AppCompatActivity() {
             ,R.drawable.kirkdort)
 
 
-        object : CountDownTimer(8000, 8000) {
-            override fun onTick(millisUntilFinished: Long) {
-                for (button in buttons) {    // Başta Kartlar Ters Gözüksün Diye
-                    button.isEnabled = false
+
+
+
+
+
+        // biz eklenen cards lara sırasıyla image atıcaz
+
+        // image isinlerini boyle sırasıyla atsak
+
+
+        cards2.forEachIndexed{index, card2 ->
+            // println("Eklenen index "+index)
+            card2.image = images[index]
+        }
+        // artik cards icersinde tum cardlar var
+
+        // simdi sira karistirmakta
+        cards2.shuffle()
+
+        var i = 0
+        while(cards.size < buttons.size){
+
+            var temp = Card(name = cards2[i].name, score=cards2[i].score, home = cards2[i].home, image = cards2[i].image, homeName = cards2[i].homeName)
+
+            if(temp.homeName == "Gryffindor"){
+
+                if(homeName1Counter < 2){
+                    cards.add(temp)
+                    var temp2 = Card(name = cards2[i].name, score=cards2[i].score, home = cards2[i].home, image = cards2[i].image, homeName = cards2[i].homeName)
+                    cards.add(temp2)
+                    homeName1Counter+=1
+
                 }
+            }else if(temp.homeName == "Slytherin"){
 
-
-
+                if(homeName2Counter < 2){
+                    cards.add(temp)
+                    var temp2 = Card(name = cards2[i].name, score=cards2[i].score, home = cards2[i].home, image = cards2[i].image, homeName = cards2[i].homeName)
+                    cards.add(temp2)
+                    homeName2Counter+=1
+                }
+            }else if(temp.homeName == "Hufflepuff"){
+                if(homeName3Counter <2){
+                    cards.add(temp)
+                    var temp2 = Card(name = cards2[i].name, score=cards2[i].score, home = cards2[i].home, image = cards2[i].image, homeName = cards2[i].homeName)
+                    cards.add(temp2)
+                    homeName3Counter+=1
+                }
+            }else if(temp.homeName == "Ravenclaw"){
+                if(homeName4Counter <2){
+                    cards.add(temp)
+                    var temp2 = Card(name = cards2[i].name, score=cards2[i].score, home = cards2[i].home, image = cards2[i].image, homeName = cards2[i].homeName)
+                    cards.add(temp2)
+                    homeName4Counter+=1
+                }
             }
 
-            override fun onFinish() {
-                for (button in buttons) {    // Başta Kartlar Ters Gözüksün Diye
-                    button.isEnabled = true
-                }
+            i+=1
+
+        }
+
+        // for(i in 0..(buttons.size/2)-1){
+        // var temp = Card(name = cards2[i].name, score=cards2[i].score, home = cards2[i].home, image = cards2[i].image, homeName = cards2[i].homeName)
+        // cards.add(temp)
+        // }
+
+        //for(i in 0..(buttons.size/2)-1){
+        // var temp = Card(name = cards2[i].name, score=cards2[i].score, home = cards2[i].home, image = cards2[i].image, homeName = cards2[i].homeName)
+        // cards.add(temp)
+        // }
+
+
+        cards.shuffle()
 
 
 
-                // biz eklenen cards lara sırasıyla image atıcaz
-
-                // image isinlerini boyle sırasıyla atsak
+        // karistirdik da artik kartlar buttonlarla index ile iliskili davrnacak
 
 
-                cards2.forEachIndexed{index, card2 ->
-                    // println("Eklenen index "+index)
-                    card2.image = images[index]
-                }
-                // artik cards icersinde tum cardlar var
-
-                // simdi sira karistirmakta
-                cards2.shuffle()
-
-                var i = 0
-                while(cards.size < buttons.size){
-
-                    var temp = Card(name = cards2[i].name, score=cards2[i].score, home = cards2[i].home, image = cards2[i].image, homeName = cards2[i].homeName)
-
-                    if(temp.homeName == "Gryffindor"){
-
-                        if(homeName1Counter < 2){
-                            cards.add(temp)
-                            var temp2 = Card(name = cards2[i].name, score=cards2[i].score, home = cards2[i].home, image = cards2[i].image, homeName = cards2[i].homeName)
-                            cards.add(temp2)
-                            homeName1Counter+=1
-
-                        }
-                    }else if(temp.homeName == "Slytherin"){
-
-                        if(homeName2Counter < 2){
-                            cards.add(temp)
-                            var temp2 = Card(name = cards2[i].name, score=cards2[i].score, home = cards2[i].home, image = cards2[i].image, homeName = cards2[i].homeName)
-                            cards.add(temp2)
-                            homeName2Counter+=1
-                        }
-                    }else if(temp.homeName == "Hufflepuff"){
-                        if(homeName3Counter <2){
-                            cards.add(temp)
-                            var temp2 = Card(name = cards2[i].name, score=cards2[i].score, home = cards2[i].home, image = cards2[i].image, homeName = cards2[i].homeName)
-                            cards.add(temp2)
-                            homeName3Counter+=1
-                        }
-                    }else if(temp.homeName == "Ravenclaw"){
-                        if(homeName4Counter <2){
-                            cards.add(temp)
-                            var temp2 = Card(name = cards2[i].name, score=cards2[i].score, home = cards2[i].home, image = cards2[i].image, homeName = cards2[i].homeName)
-                            cards.add(temp2)
-                            homeName4Counter+=1
-                        }
-                    }
-
-                    i+=1
-
-                }
-
-                // for(i in 0..(buttons.size/2)-1){
-                // var temp = Card(name = cards2[i].name, score=cards2[i].score, home = cards2[i].home, image = cards2[i].image, homeName = cards2[i].homeName)
-                // cards.add(temp)
-                // }
-
-                //for(i in 0..(buttons.size/2)-1){
-                // var temp = Card(name = cards2[i].name, score=cards2[i].score, home = cards2[i].home, image = cards2[i].image, homeName = cards2[i].homeName)
-                // cards.add(temp)
-                // }
+        // sonra kartlari sufflela
 
 
-                cards.shuffle()
+        myTimer()
+        playAudio()
 
-
-
-                // karistirdik da artik kartlar buttonlarla index ile iliskili davrnacak
-
-
-                // sonra kartlari sufflela
-
-
-                myTimer()
-                playAudio()
-
-            }
-        }.start()
 
 
 
@@ -439,12 +429,19 @@ class Game : AppCompatActivity() {
             }
 
             if(bittimi==1){
+                println("Buraya Girdim")
+                stopAudio()
+                if(!mpForEndFlag){
+                    stopAudioForEnd()
+                }
+                timer.cancel()
                 oyunBittiBasarili()
+
             }
 
         }else{
 
-            object : CountDownTimer(1000, 1000) {
+                object : CountDownTimer(1000, 1000) {
                 override fun onTick(millisUntilFinished: Long) {
                     for (button in buttons) {    // Başta Kartlar Ters Gözüksün Diye
                         button.isEnabled = false
@@ -470,10 +467,9 @@ class Game : AppCompatActivity() {
         }
     }
 
-
     //Timer
     private fun myTimer(){
-        object : CountDownTimer(45000,1000){
+        timer = object : CountDownTimer(45000,1000){
             override fun onTick(p0: Long) {
                 binding.sayac.text = "${p0/1000}"
 
@@ -491,50 +487,11 @@ class Game : AppCompatActivity() {
                 oyunBittiBasarisiz()
             }
 
-        }.start()
-    }
+        }
 
-    fun get_data() {
-
-        val retrofitBuilder = Retrofit.Builder()
-            .addConverterFactory(GsonConverterFactory.create())
-            .baseUrl("http://192.168.1.101:5001/")
-            .build()
-            .create(ApiInterface::class.java)
-
-
-        val retrofitData = retrofitBuilder.getData()
-
-        retrofitData.enqueue(object : Callback<List<CardsItem>?> {
-            override fun onResponse(
-                call: Call<List<CardsItem>?>,
-                response: retrofit2.Response<List<CardsItem>?>
-            ) {
-                val responseBody = response.body()!!
-                val myStringBuilder = StringBuilder()
-                for(Cards in responseBody){
-                    val card_id: Int = Cards.cardId
-                    val card_name: String = Cards.cardName
-                    val card_home: String = Cards.homeName
-                    val card_score: Int = Cards.cardScore
-                    val home_score : Int = Cards.homeScore
-                    var addedCard = Card(name=card_name, score=card_score, homeName = card_home, home = home_score)
-                    // println(card_id.toString()+" "+ card_name+" "+card_home+" "+card_score.toString()+" "+home_score.toString())
-                    cards2.add(addedCard)
-
-
-
-                }
-
-            }
-
-            override fun onFailure(call: Call<List<CardsItem>?>, t: Throwable) {
-                Log.e("Error",t.toString())
-            }
-        })
-
-
-
+        timer.start()
 
     }
+
+
 }

@@ -80,7 +80,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="12"
+                    android:text="0"
                     android:textAlignment="center"
                     android:textColor="@color/custom"
                     android:textSize="24sp"
@@ -173,7 +173,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="12"
+                    android:text="0"
                     android:textAlignment="center"
                     android:textColor="@color/custom"
                     android:textSize="24sp"
@@ -201,7 +201,7 @@
         app:layout_constraintVertical_bias="0.684">
 
         <ImageButton
-            android:id="@+id/ikiimageButton"
+            android:id="@+id/deneme1"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_row="0"
@@ -210,7 +210,7 @@
             app:srcCompat="@drawable/arka" />
 
         <ImageButton
-            android:id="@+id/ikiimageButton2"
+            android:id="@+id/deneme2"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_row="0"
@@ -219,7 +219,7 @@
             app:srcCompat="@drawable/arka" />
 
         <ImageButton
-            android:id="@+id/ikiimageButton3"
+            android:id="@+id/deneme3"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_row="1"
@@ -228,7 +228,7 @@
             app:srcCompat="@drawable/arka" />
 
         <ImageButton
-            android:id="@+id/ikiimageButton4"
+            android:id="@+id/deneme4"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_row="1"

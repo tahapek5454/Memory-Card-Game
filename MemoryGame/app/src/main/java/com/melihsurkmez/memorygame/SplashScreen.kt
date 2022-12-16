@@ -41,7 +41,7 @@ class SplashScreen : AppCompatActivity() {
             }
             override fun onFinish() {
 
-                intent= Intent(applicationContext,Game::class.java)
+                intent= Intent(applicationContext,GameForSix2::class.java)
                 intent.putExtra("cards",cards2)
                 startActivity(intent)
 
@@ -57,7 +57,7 @@ class SplashScreen : AppCompatActivity() {
 
         val retrofitBuilder = Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create())
-            .baseUrl("http://192.168.1.101:5001/")
+            .baseUrl("http://192.168.1.104:5001")
             .build()
             .create(ApiInterface::class.java)
 
