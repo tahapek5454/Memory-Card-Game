@@ -1,6 +1,7 @@
 package com.melihsurkmez.memorygame
 
 import android.content.DialogInterface
+import android.content.Intent
 import android.media.AudioManager
 import android.media.MediaPlayer
 import android.net.Uri
@@ -29,6 +30,7 @@ class Game : AppCompatActivity() {
     lateinit var binding: ActivityGameBinding
     //Butonlarimizin listesi burada olucak
     var buttons = ArrayList<ImageButton>()
+
     var cards = ArrayList<Card>()
     var cards2 = ArrayList<Card>()
     var indexOfSingleSelectionCard : Int? =null
@@ -49,6 +51,9 @@ class Game : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding=ActivityGameBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        val arrayList = intent.getSerializableExtra("cards") as ArrayList<Card>
+        cards2=arrayList
+        println(arrayList.size)
         buttons.add(imageButton)
         buttons.add(imageButton2)
         buttons.add(imageButton3)
@@ -86,9 +91,6 @@ class Game : AppCompatActivity() {
                     button.isEnabled = false
                 }
 
-                // veriyi aldık
-                get_data()
-                // bu veri indexli sırali bir sekilde cardss a eklendi
 
 
             }
@@ -104,7 +106,6 @@ class Game : AppCompatActivity() {
 
                 // image isinlerini boyle sırasıyla atsak
 
-                println("cards2 size : "+cards2.size)
 
                 cards2.forEachIndexed{index, card2 ->
                     // println("Eklenen index "+index)
@@ -170,11 +171,7 @@ class Game : AppCompatActivity() {
 
                 cards.shuffle()
 
-                cards.forEachIndexed { index, card->
-                    println("Index-> "+index+ " CardName-> "+card.name + " -CardHome Name "+card.homeName)
-                }
 
-                println("cards Sizee :  "+cards.size)
 
                 // karistirdik da artik kartlar buttonlarla index ile iliskili davrnacak
 
@@ -364,7 +361,7 @@ class Game : AppCompatActivity() {
 
             if(card.isFaceUp){
 
-                println("Index-->> "+index+ "Olan kartin imageini degistirdim ismi de -> "+card.name)
+
 
                 button.setImageResource(card.image)
             }else{
