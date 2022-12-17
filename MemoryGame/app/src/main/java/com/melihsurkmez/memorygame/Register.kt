@@ -77,7 +77,7 @@ class Register : AppCompatActivity() {
     fun register(username: String, email: String, password: String){
 
         val parameter = username+"-"+email+"-"+password
-        val URL:String = " http://192.168.1.101:5000/api/register/"+parameter
+        val URL:String = "http://34.171.190.15:5000/api/register/"+parameter
 
         if(URL.isNotEmpty()){
 

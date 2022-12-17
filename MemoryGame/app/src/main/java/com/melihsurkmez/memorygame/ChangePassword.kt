@@ -46,7 +46,7 @@ class ChangePassword : AppCompatActivity() {
     fun change(username: String,old_password: String, new_password: String){
 
         val parameter = username+"-"+old_password+"-"+new_password
-        val URL:String = " http://192.168.1.101:5000/api/chgpassword/"+parameter
+        val URL:String = "http://34.171.190.15:5000/api/chgpassword/"+parameter
 
         if(URL.isNotEmpty()){
 

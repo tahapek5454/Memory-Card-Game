@@ -72,7 +72,7 @@ class MainActivity : AppCompatActivity() {
     fun login_control(username:String,password:String){
 
         val parameter = username+"-"+password
-        val URL:String = " http://192.168.1.101:5000/api/login/"+parameter
+        val URL:String = "http://34.171.190.15:5000/api/login/"+parameter
 
         if(URL.isNotEmpty()){
 

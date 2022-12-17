@@ -120,7 +120,7 @@ class SplashScreen : AppCompatActivity() {
 
         val retrofitBuilder = Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create())
-            .baseUrl("http://192.168.1.101:5001")
+            .baseUrl("http://34.133.104.253:5001/")
             .build()
             .create(ApiInterface::class.java)
 

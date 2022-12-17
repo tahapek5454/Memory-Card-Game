@@ -1,7 +1,14 @@
 from flask import Flask, jsonify, request
 import mysql.connector
+import redis
+r = redis.Redis(
+    host='34.170.163.125',
+    port=6379, 
+    password='kouyazlab',
+)
 
-
+r.flushdb()
+r.flushall()
 # DB
 def getCardsFromDb():
     cnx = mysql.connector.connect(user="root", password="yazlab123", host="34.71.163.17", database="memorygame")
@@ -23,7 +30,7 @@ def getCardsFromDb():
             myDict["homeName"]=i[3]
             myDict["homeScore"]=i[4]
             
-
+            
             response.append(myDict)
 
     except Exception as e:

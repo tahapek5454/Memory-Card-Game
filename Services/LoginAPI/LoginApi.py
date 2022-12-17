@@ -65,7 +65,6 @@ def register_function(email,username,password):
         else:
             return False
     
-    
     else:
         conn_cursor.execute("Select Password from Users where Username='{}' OR Email='{}'".format(username,email))
         result=conn_cursor.fetchall()
