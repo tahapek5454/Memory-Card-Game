@@ -47,11 +47,8 @@
                 <RadioGroup
                     android:id="@+id/oyuncusayisi"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
 
 
                         <RadioButton
@@ -77,7 +74,6 @@
 
 
 
-                    </LinearLayout>
 
                 </RadioGroup>
 
@@ -126,14 +122,11 @@
                 >
 
 
-                <RadioGroup
-                    android:id="@+id/zorlukderecesigroup"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        <RadioGroup
+                            android:id="@+id/zorlukderecesigroup"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
 
 
                         <RadioButton
@@ -170,11 +163,10 @@
 
 
 
+                        </RadioGroup>
+
                     </LinearLayout>
 
-                </RadioGroup>
-
-            </LinearLayout>
 
         </LinearLayout>
 

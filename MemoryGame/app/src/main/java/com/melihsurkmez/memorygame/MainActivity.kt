@@ -106,9 +106,8 @@ class MainActivity : AppCompatActivity() {
                             println(response)
                             if(response=="OK"){
 
-                                Handler(Looper.getMainLooper()).post {
-                                    Toast.makeText(this@MainActivity, "Giriş Başarılı!", Toast.LENGTH_LONG).show()
-                                }
+                                intent = Intent(applicationContext,Preferences::class.java)
+                                startActivity(intent)
 
                             }
                             else{

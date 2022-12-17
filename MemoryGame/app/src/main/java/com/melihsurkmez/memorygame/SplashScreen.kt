@@ -1,12 +1,11 @@
 package com.melihsurkmez.memorygame
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
-import android.os.Handler
 import android.util.Log
 import android.view.animation.AnimationUtils
+import androidx.appcompat.app.AppCompatActivity
 import com.melihsurkmez.memorygame.databinding.ActivitySplashScreenBinding
 import retrofit2.Call
 import retrofit2.Callback
@@ -18,10 +17,16 @@ class SplashScreen : AppCompatActivity() {
     var cards2 = ArrayList<Card>()
     lateinit var binding:ActivitySplashScreenBinding
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val binding = ActivitySplashScreenBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        val bundle = intent.extras
+        val kisisayisi = bundle!!.getString("kisisayisi")
+        val zorlukderece = bundle!!.getString("zorlukderece")
+
+        println(kisisayisi+zorlukderece)
 
         val animation1 = AnimationUtils.loadAnimation(this,R.anim.animation1)
         val animation2 = AnimationUtils.loadAnimation(this,R.anim.animation2)
@@ -41,9 +46,67 @@ class SplashScreen : AppCompatActivity() {
             }
             override fun onFinish() {
 
-                intent= Intent(applicationContext,GameForSix2::class.java)
-                intent.putExtra("cards",cards2)
-                startActivity(intent)
+
+
+                if(kisisayisi=="Tek" && zorlukderece=="Kolay"){
+
+                    intent= Intent(applicationContext,GameForTwo::class.java)
+                    intent.putExtra("cards",cards2)
+                    startActivity(intent)
+                    finish()
+
+
+
+                }
+
+                else if(kisisayisi=="Tek" && zorlukderece=="Orta"){
+
+                    intent= Intent(applicationContext,Game::class.java)
+                    intent.putExtra("cards",cards2)
+                    startActivity(intent)
+                    finish()
+
+
+                }
+
+                else if(kisisayisi=="Tek" && zorlukderece=="Zor"){
+
+                    intent= Intent(applicationContext,GameForSix::class.java)
+                    intent.putExtra("cards",cards2)
+                    startActivity(intent)
+                    finish()
+
+
+                }
+
+                else if(kisisayisi=="Çift" && zorlukderece=="Kolay"){
+
+                    intent= Intent(applicationContext,GameForTwo2::class.java)
+                    intent.putExtra("cards",cards2)
+                    startActivity(intent)
+                    finish()
+
+
+                }
+
+                else if(kisisayisi=="Çift" && zorlukderece=="Orta"){
+
+                    intent= Intent(applicationContext,Game2::class.java)
+                    intent.putExtra("cards",cards2)
+                    startActivity(intent)
+                    finish()
+
+
+                }
+
+                else if(kisisayisi=="Çift" && zorlukderece=="Zor"){
+
+                    intent= Intent(applicationContext,GameForSix2::class.java)
+                    intent.putExtra("cards",cards2)
+                    startActivity(intent)
+                    finish()
+
+                }
 
                 }
 
@@ -57,7 +120,7 @@ class SplashScreen : AppCompatActivity() {
 
         val retrofitBuilder = Retrofit.Builder()
             .addConverterFactory(GsonConverterFactory.create())
-            .baseUrl("http://192.168.1.104:5001")
+            .baseUrl("http://192.168.1.101:5001")
             .build()
             .create(ApiInterface::class.java)
 

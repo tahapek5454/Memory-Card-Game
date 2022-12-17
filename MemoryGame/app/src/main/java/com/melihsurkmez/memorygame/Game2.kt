@@ -1,6 +1,7 @@
 package com.melihsurkmez.memorygame
 
 import android.content.DialogInterface
+import android.content.Intent
 import android.media.AudioManager
 import android.media.MediaPlayer
 import android.net.Uri
@@ -11,6 +12,25 @@ import android.widget.ImageButton
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import kotlinx.android.synthetic.main.activity_game2.*
+import kotlinx.android.synthetic.main.activity_game2.imageButton
+import kotlinx.android.synthetic.main.activity_game2.imageButton10
+import kotlinx.android.synthetic.main.activity_game2.imageButton11
+import kotlinx.android.synthetic.main.activity_game2.imageButton12
+import kotlinx.android.synthetic.main.activity_game2.imageButton13
+import kotlinx.android.synthetic.main.activity_game2.imageButton14
+import kotlinx.android.synthetic.main.activity_game2.imageButton15
+import kotlinx.android.synthetic.main.activity_game2.imageButton16
+import kotlinx.android.synthetic.main.activity_game2.imageButton2
+import kotlinx.android.synthetic.main.activity_game2.imageButton3
+import kotlinx.android.synthetic.main.activity_game2.imageButton4
+import kotlinx.android.synthetic.main.activity_game2.imageButton5
+import kotlinx.android.synthetic.main.activity_game2.imageButton6
+import kotlinx.android.synthetic.main.activity_game2.imageButton7
+import kotlinx.android.synthetic.main.activity_game2.imageButton8
+import kotlinx.android.synthetic.main.activity_game2.imageButton9
+import kotlinx.android.synthetic.main.activity_game2.puan
+import kotlinx.android.synthetic.main.activity_game2.sayac
+import kotlinx.android.synthetic.main.activity_game_for_six.*
 import java.io.IOException
 
 class Game2 : AppCompatActivity() {
@@ -188,28 +208,58 @@ class Game2 : AppCompatActivity() {
     }
 
     private fun oyunBittiBasarili(){
-        val uyari = AlertDialog.Builder(this)
-        uyari.setTitle("Tebrikler Oyunu Kazandiriniz")
-        uyari.setMessage("Puaninizi : "+puan.text)
-        uyari.setMessage("Butona Tiklayarak Ana Menuye Gidebilirsiniz")
-        uyari.setPositiveButton("Git", DialogInterface.OnClickListener { dialogInterface, i ->
-            Toast.makeText(this, "Ana Menuye yonledirme eklenecek", Toast.LENGTH_LONG).show()
-        })
-        uyari.show()
+        var builder: AlertDialog.Builder
+
+        builder = AlertDialog.Builder(this)
+
+
+        builder.setTitle("Bravo! Kazandın!")
+            .setMessage("Puanın:"+puan.text)
+            .setCancelable(true) // dialog box in cancellable
+            // set positive button
+            //take two parameters dialogInterface and an int
+            .setPositiveButton("Ana Menüye Dön") { dialogInterface, it ->
+                intent = Intent(applicationContext,Preferences::class.java)
+                startActivity(intent)
+                finish() // close the app when yes clicked
+            }
+            .setNegativeButton("Tekrar Oyna") { dialogInterface, it ->
+                intent = Intent(applicationContext,SplashScreen::class.java)
+                intent.putExtra("zorlukderece", "Zor");
+                intent.putExtra("kisisayisi", "Tek");
+                startActivity(intent)
+                dialogInterface.cancel()
+            }
+            // show the builder
+            .show()
 
     }
 
-    private fun oyunBittiBasarisiz(){
-        val uyari = AlertDialog.Builder(this)
-        uyari.setTitle("Maalesef Oyunu Kazanamadiniz")
-        uyari.setMessage("Puaninizi : "+puan.text)
-        uyari.setMessage("Butona Tiklayarak Ana Menuye Gidebilirsiniz")
-        uyari.setNegativeButton("Git", DialogInterface.OnClickListener { dialogInterface, i ->
-            Toast.makeText(this, "Ana Menuye yonledirme eklenecek", Toast.LENGTH_LONG).show()
-        })
+    private fun oyunBittiBasarisiz() {
+        var builder: AlertDialog.Builder
 
-        uyari.show()
+        builder = AlertDialog.Builder(this)
 
+
+        builder.setTitle("Yetişemedin! Kaybettin :(")
+            .setMessage("Puanın:"+puan.text)
+            .setCancelable(true) // dialog box in cancellable
+            // set positive button
+            //take two parameters dialogInterface and an int
+            .setPositiveButton("Ana Menüye Dön") { dialogInterface, it ->
+                intent = Intent(applicationContext,Preferences::class.java)
+                startActivity(intent)
+                finish() // close the app when yes clicked
+            }
+            .setNegativeButton("Tekrar Oyna") { dialogInterface, it ->
+                intent = Intent(applicationContext,SplashScreen::class.java)
+                intent.putExtra("zorlukderece", "Orta");
+                intent.putExtra("kisisayisi", "Çift");
+                startActivity(intent)
+                dialogInterface.cancel()
+            }
+            // show the builder
+            .show()
     }
 
     private fun playAudioForNope(){

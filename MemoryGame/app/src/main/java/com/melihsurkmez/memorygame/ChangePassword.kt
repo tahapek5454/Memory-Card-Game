@@ -84,6 +84,10 @@ class ChangePassword : AppCompatActivity() {
                                     Toast.makeText(this@ChangePassword, "Şifre başarıyla güncellendi!", Toast.LENGTH_LONG).show()
                                 }
 
+                                intent = Intent(applicationContext,MainActivity::class.java)
+                                startActivity(intent)
+                                finish()
+
                             }
                             else{
 

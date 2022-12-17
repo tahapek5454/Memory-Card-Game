@@ -115,6 +115,10 @@ class Register : AppCompatActivity() {
                                     Toast.makeText(this@Register, "Kayıt işlemi başarılı bir şekilde gerçekleşti.", Toast.LENGTH_LONG).show()
                                 }
 
+                                intent = Intent(applicationContext,MainActivity::class.java)
+                                startActivity(intent)
+                                finish()
+
                             }
                             else{
 
