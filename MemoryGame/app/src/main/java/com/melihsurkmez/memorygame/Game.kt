@@ -2,6 +2,7 @@ package com.melihsurkmez.memorygame
 
 import android.content.DialogInterface
 import android.content.Intent
+import android.graphics.Typeface
 import android.media.AudioManager
 import android.media.MediaPlayer
 import android.net.Uri
@@ -9,7 +10,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.util.Log
+import android.util.TypedValue
 import android.widget.ImageButton
+import android.widget.TextView
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.melihsurkmez.memorygame.databinding.ActivityGameBinding
@@ -123,7 +126,7 @@ class Game : AppCompatActivity() {
 
             if(mpForNope!!.isPlaying){
 
-                
+
 
             }
 
@@ -380,9 +383,6 @@ class Game : AppCompatActivity() {
 
         // val text: String = binding.succesLogs.text.toString()
 
-        val new_text: String ="Karakter"+":"+card.name+" Kazandırdığı Puan:"+calculate+" Evi:"+card.home
-
-
 
     }
 
@@ -411,6 +411,7 @@ class Game : AppCompatActivity() {
 
         puan.text = calculate.toString()
 
+
     }
 
     private fun updateViews() {
@@ -432,13 +433,17 @@ class Game : AppCompatActivity() {
     private fun updateModel(index: Int) {
         var card = cards[index]
         //println("Cards[index] lengt "+cards.size)
-
-
+        val new_text:String = card.name+"(Puan:"+card.score+""+",Ev:"+card.home+")"
+        val textView = TextView(this)
+        textView.setTypeface(textView.typeface,Typeface.BOLD)
+        textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15f)
+        textView.text = new_text
+        binding.scroll.addView(textView)
         //println("Tiklanan Kart'in adi "+card.name+ "Tiklanan kartin indexi "+index)
 
 
         if(card.isFaceUp){
-            Toast.makeText(this, "Bu kart zaten secili", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Bu kart zaten seçili!", Toast.LENGTH_SHORT).show()
             return
         }
 

@@ -2,15 +2,20 @@ package com.melihsurkmez.memorygame
 
 import android.content.DialogInterface
 import android.content.Intent
+import android.graphics.Typeface
 import android.media.AudioManager
 import android.media.MediaPlayer
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.util.TypedValue
 import android.widget.ImageButton
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import com.melihsurkmez.memorygame.databinding.ActivityGame2Binding
+import com.melihsurkmez.memorygame.databinding.ActivityGameBinding
 import kotlinx.android.synthetic.main.activity_game2.*
 import kotlinx.android.synthetic.main.activity_game2.imageButton
 import kotlinx.android.synthetic.main.activity_game2.imageButton10
@@ -34,7 +39,7 @@ import kotlinx.android.synthetic.main.activity_game_for_six.*
 import java.io.IOException
 
 class Game2 : AppCompatActivity() {
-
+    lateinit var binding : ActivityGame2Binding
     var buttons = ArrayList<ImageButton>()
     lateinit var timer : CountDownTimer
     var cards = ArrayList<Card>()
@@ -58,7 +63,9 @@ class Game2 : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_game2)
+        binding= ActivityGame2Binding.inflate(layoutInflater)
+        setContentView(binding.root)
+
 
 
         val arrayList = intent.getSerializableExtra("cards") as ArrayList<Card>
@@ -421,6 +428,13 @@ class Game2 : AppCompatActivity() {
 
     private fun updateModel(index: Int) {
         var card = cards[index]
+        val new_text:String = card.name+"(Puan:"+card.score+""+",Ev:"+card.home+")"
+        val textView = TextView(this)
+        textView.setTypeface(textView.typeface, Typeface.BOLD)
+        textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15f)
+        textView.text = new_text
+        binding.scroll.addView(textView)
+        //println("Tiklanan Kart'in adi "+card.name+ "Tiklanan kartin indexi "+index)
         //println("Cards[index] lengt "+cards.size)
 
 
