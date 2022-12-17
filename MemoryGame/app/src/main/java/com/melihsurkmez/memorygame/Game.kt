@@ -108,6 +108,26 @@ class Game : AppCompatActivity() {
             ,R.drawable.kirkdort)
 
 
+        binding.sesAc.setOnClickListener {
+
+            if(!mpForNope!!.isPlaying){
+
+
+
+            }
+
+        }
+
+        binding.sesKapa.setOnClickListener {
+
+
+            if(mpForNope!!.isPlaying){
+
+                
+
+            }
+
+        }
 
 
 

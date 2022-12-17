@@ -13,9 +13,7 @@ import android.view.View
 import android.widget.ImageButton
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-
 import kotlinx.android.synthetic.main.activity_game_for_six.*
-import kotlinx.android.synthetic.main.alertdialog.view.*
 import java.io.IOException
 
 class GameForSix : AppCompatActivity() {
