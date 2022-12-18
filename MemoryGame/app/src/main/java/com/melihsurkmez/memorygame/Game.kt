@@ -56,11 +56,10 @@ class Game : AppCompatActivity() {
     var cards = ArrayList<Card>()
     var cards2 = ArrayList<Card>()
     var indexOfSingleSelectionCard : Int? =null
-    var mediaPlayer : MediaPlayer?=null
-    var mpForNope : MediaPlayer?=null
-    var mpForEndFlag = true
-    var mpForEnd : MediaPlayer?=null
-    var victory : MediaPlayer? =null
+    var mMediaPlayer: MediaPlayer? = null
+    var mCMediaPlayer: MediaPlayer? = null
+    var mSMediaPlayer: MediaPlayer? = null
+    var mVMediaPlayer: MediaPlayer? = null
 
 
 
@@ -68,8 +67,6 @@ class Game : AppCompatActivity() {
     var homeName2Counter =0
     var homeName3Counter =0
     var homeName4Counter=0
-
-
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -113,24 +110,11 @@ class Game : AppCompatActivity() {
 
 
         binding.sesAc.setOnClickListener {
-
-            if(!mpForNope!!.isPlaying){
-
-
-
-            }
-
+            playSound()
         }
 
         binding.sesKapa.setOnClickListener {
-
-
-            if(mpForNope!!.isPlaying){
-
-
-
-            }
-
+            pauseSound()
         }
 
 
@@ -215,9 +199,7 @@ class Game : AppCompatActivity() {
 
 
         myTimer()
-        playAudio()
-
-
+        playSound()
 
 
 
@@ -266,6 +248,7 @@ class Game : AppCompatActivity() {
                 intent = Intent(applicationContext,SplashScreen::class.java)
                 intent.putExtra("zorlukderece", "Orta");
                 intent.putExtra("kisisayisi", "Tek");
+                victorystopSound()
                 startActivity(intent)
                 dialogInterface.cancel()
             }
@@ -273,6 +256,87 @@ class Game : AppCompatActivity() {
             .show()
 
     }
+    fun playSound() {
+        if (mMediaPlayer == null) {
+            mMediaPlayer = MediaPlayer.create(this, R.raw.prologue)
+            mMediaPlayer!!.isLooping = true
+            mMediaPlayer!!.start()
+        } else mMediaPlayer!!.start()
+    }
+    fun pauseSound() {
+        if (mMediaPlayer?.isPlaying == true) mMediaPlayer?.pause()
+    }
+    fun stopSound() {
+        if (mMediaPlayer != null) {
+            mMediaPlayer!!.stop()
+            mMediaPlayer!!.release()
+            mMediaPlayer = null
+        }
+    }
+    // 4. Destroys the MediaPlayer instance when the app is closed
+    override fun onStop() {
+        super.onStop()
+        if (mMediaPlayer != null) {
+            mMediaPlayer!!.release()
+            mMediaPlayer = null
+        }
+    }
+    fun CongratsplaySound() {
+        if (mCMediaPlayer == null) {
+            mCMediaPlayer = MediaPlayer.create(this, R.raw.congrats)
+            mCMediaPlayer!!.isLooping = true
+            mCMediaPlayer!!.start()
+        } else mCMediaPlayer!!.start()
+    }
+    fun CongratspauseSound() {
+        if (mCMediaPlayer?.isPlaying == true) mCMediaPlayer?.pause()
+    }
+    fun CongratstopSound() {
+        if (mCMediaPlayer != null) {
+            mCMediaPlayer!!.stop()
+            mCMediaPlayer!!.release()
+            mCMediaPlayer = null
+        }
+    }
+    // 4. Destroys the MediaPlayer instance when the app is closed
+
+    fun shockedplaySound() {
+        if (mSMediaPlayer == null) {
+            mSMediaPlayer = MediaPlayer.create(this, R.raw.shocked)
+            mSMediaPlayer!!.isLooping = true
+            mSMediaPlayer!!.start()
+        } else mSMediaPlayer!!.start()
+    }
+    fun shockedpauseSound() {
+        if (mSMediaPlayer?.isPlaying == true) mSMediaPlayer?.pause()
+    }
+    fun shockedstopSound() {
+        if (mSMediaPlayer != null) {
+            mSMediaPlayer!!.stop()
+            mSMediaPlayer!!.release()
+            mSMediaPlayer = null
+        }
+    }
+    // 4. Destroys the MediaPlayer instance when the app is closed
+
+    fun victoryplaySound() {
+        if (mVMediaPlayer == null) {
+            mVMediaPlayer = MediaPlayer.create(this, R.raw.victory)
+            mVMediaPlayer!!.isLooping = true
+            mVMediaPlayer!!.start()
+        } else mVMediaPlayer!!.start()
+    }
+    fun victorypauseSound() {
+        if (mVMediaPlayer?.isPlaying == true) mVMediaPlayer?.pause()
+    }
+    fun victorystopSound() {
+        if (mVMediaPlayer != null) {
+            mVMediaPlayer!!.stop()
+            mVMediaPlayer!!.release()
+            mVMediaPlayer = null
+        }
+    }
+    // 4. Destroys the MediaPlayer instance when the app is closed
 
     private fun oyunBittiBasarisiz() {
         var builder: AlertDialog.Builder
@@ -292,7 +356,7 @@ class Game : AppCompatActivity() {
             }
             .setNegativeButton("Tekrar Oyna") { dialogInterface, it ->
                 intent = Intent(applicationContext,SplashScreen::class.java)
-                intent.putExtra("zorlukderece", "Zor");
+                intent.putExtra("zorlukderece", "Orta");
                 intent.putExtra("kisisayisi", "Tek");
                 startActivity(intent)
                 dialogInterface.cancel()
@@ -302,99 +366,8 @@ class Game : AppCompatActivity() {
     }
 
 
-    private fun playAudioForVictory(){
-        victory = MediaPlayer()
-        victory!!.setAudioStreamType(AudioManager.STREAM_MUSIC)
-        try {
-            victory!!.setDataSource(this, Uri.parse("android.resource://"+this.packageName+"/"+R.raw.victory))
-            victory!!.prepare()
-            victory!!.start()
-
-        }catch (e: IOException){
-            println("Hata")
-        }
-    }
-
-    private fun stopAudioForVictory(){
-
-        if(victory!!.isPlaying){
-            victory!!.stop()
-            victory!!.reset()
-            victory!!.release()
-        }
-
-    }
-
-    private fun playAudioForNope(){
-
-        mpForNope = MediaPlayer()
-        mpForNope!!.setAudioStreamType(AudioManager.STREAM_MUSIC)
-
-        try {
-            mpForNope!!.setDataSource(this, Uri.parse("android.resource://"+this.packageName+"/"+R.raw.congrats))
-            mpForNope!!.prepare()
-            mpForNope!!.start()
-
-        }catch (e: IOException){
-            println("Hata")
-        }
-
-    }
-
-    private fun stopAudioForNope(){
-        if(mpForNope!!.isPlaying){
-            mpForNope!!.stop()
-            mpForNope!!.reset()
-            mpForNope!!.release()
-        }
-    }
-
-    private fun playAudioForEnd(){
-
-        mpForEnd = MediaPlayer()
-        mpForEnd!!.setAudioStreamType(AudioManager.STREAM_MUSIC)
-
-        try {
-            mpForEnd!!.setDataSource(this, Uri.parse("android.resource://"+this.packageName+"/"+R.raw.shocked))
-            mpForEnd!!.prepare()
-            mpForEnd!!.start()
-
-        }catch (e: IOException){
-            println("Hata")
-        }
-    }
-
-    private fun stopAudioForEnd(){
-        if(mpForEnd!!.isPlaying){
-            mpForEnd!!.stop()
-            mpForEnd!!.reset()
-            mpForEnd!!.release()
-        }
-    }
 
 
-    private fun playAudio(){
-
-        mediaPlayer = MediaPlayer()
-        mediaPlayer!!.setAudioStreamType(AudioManager.STREAM_MUSIC)
-
-        try {
-            mediaPlayer!!.setDataSource(this, Uri.parse("android.resource://"+this.packageName+"/"+R.raw.prologue))
-            mediaPlayer!!.prepare()
-            mediaPlayer!!.start()
-
-        }catch (e: IOException){
-            println("Hata")
-        }
-    }
-
-    private fun stopAudio(){
-        if(mediaPlayer!!.isPlaying){
-            mediaPlayer!!.stop()
-            mediaPlayer!!.reset()
-            mediaPlayer!!.release()
-        }
-    }
 
     private fun calculateTrueResult(index :Int){
 
@@ -455,7 +428,9 @@ class Game : AppCompatActivity() {
         }
     }
 
+
     private fun updateModel(index: Int) {
+        CongratstopSound()
         var card = cards[index]
         //println("Cards[index] lengt "+cards.size)
         val new_text:String = card.name+"(Puan:"+card.score+""+",Ev:"+card.home+")"
@@ -518,18 +493,11 @@ class Game : AppCompatActivity() {
 
             object : CountDownTimer(2500,2500){
                 override fun onTick(millisUntilFinished: Long) {
-                    for (button in buttons) {    // Başta Kartlar Ters Gözüksün Diye
-                        button.isEnabled = false
-                    }
-                    playAudioForNope()
-
+                    CongratsplaySound()
                 }
 
                 override fun onFinish() {
-                    for (button in buttons) {    // Başta Kartlar Ters Gözüksün Diye
-                        button.isEnabled = true
-                    }
-                    stopAudioForNope()
+                    CongratstopSound()
                 }
 
 
@@ -551,12 +519,8 @@ class Game : AppCompatActivity() {
 
             if(bittimi==1){
                 println("Buraya Girdim")
-                stopAudio()
-                if(!mpForEndFlag){
-                    stopAudioForEnd()
-                }
                 timer.cancel()
-                playAudioForVictory()
+                victoryplaySound()
                 oyunBittiBasarili()
 
 
@@ -595,18 +559,11 @@ class Game : AppCompatActivity() {
         timer = object : CountDownTimer(45000,1000){
             override fun onTick(p0: Long) {
                 binding.sayac.text = "${p0/1000}"
-
-                if((p0/1000)<2 && mpForEndFlag){
-                    playAudioForEnd()
-                    mpForEndFlag = false
-                }
-
             }
 
             override fun onFinish() {
                 binding.sayac.text = "0"
-                stopAudioForEnd()
-                stopAudio()
+
                 oyunBittiBasarisiz()
             }
 

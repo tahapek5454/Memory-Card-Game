@@ -273,7 +273,7 @@ class GameForSix2 : AppCompatActivity() {
             .setNegativeButton("Tekrar Oyna") { dialogInterface, it ->
                 intent = Intent(applicationContext,SplashScreen::class.java)
                 intent.putExtra("zorlukderece", "Zor");
-                intent.putExtra("kisisayisi", "Tek");
+                intent.putExtra("kisisayisi", "Çift");
                 startActivity(intent)
                 dialogInterface.cancel()
             }
