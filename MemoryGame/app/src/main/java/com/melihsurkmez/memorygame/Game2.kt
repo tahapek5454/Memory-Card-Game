@@ -2,6 +2,7 @@ package com.melihsurkmez.memorygame
 
 import android.content.DialogInterface
 import android.content.Intent
+import android.graphics.Color
 import android.graphics.Typeface
 import android.media.AudioManager
 import android.media.MediaPlayer
@@ -125,7 +126,7 @@ class Game2 : AppCompatActivity() {
 
         // simdi sira karistirmakta
         cards2.shuffle()
-
+        oy1text.setTextColor(Color.parseColor("#FF0000"))
         var i = 0
         while(cards.size < buttons.size){
 
@@ -207,8 +208,8 @@ class Game2 : AppCompatActivity() {
             button.setOnClickListener {
 
                 updateModel(index)
-
                 updateViews()
+
 
 
             }
@@ -548,6 +549,13 @@ class Game2 : AppCompatActivity() {
 
                     calculateFalseResult(indexOfSingleSelectionCard, index)
                     oyuncu = !oyuncu
+                    if(oyuncu){
+                        oy1text.setTextColor(Color.parseColor("#FF0000"))
+                        oy2text.setTextColor(Color.parseColor("#000000"))
+                    }else{
+                        oy1text.setTextColor(Color.parseColor("#000000"))
+                        oy2text.setTextColor(Color.parseColor("#FF0000"))
+                    }
                     buttons[index].setImageResource(cards[index].image)
                     buttons[indexOfSingleSelectionCard].setImageResource(cards[indexOfSingleSelectionCard].image)
 
