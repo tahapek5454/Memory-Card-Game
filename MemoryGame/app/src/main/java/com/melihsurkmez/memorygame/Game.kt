@@ -60,6 +60,7 @@ class Game : AppCompatActivity() {
     var mpForNope : MediaPlayer?=null
     var mpForEndFlag = true
     var mpForEnd : MediaPlayer?=null
+    var victory : MediaPlayer? =null
 
 
 
@@ -241,6 +242,8 @@ class Game : AppCompatActivity() {
 
             }
         }
+
+
     }
 
     private fun oyunBittiBasarili(){
@@ -298,13 +301,37 @@ class Game : AppCompatActivity() {
             .show()
     }
 
+
+    private fun playAudioForVictory(){
+        victory = MediaPlayer()
+        victory!!.setAudioStreamType(AudioManager.STREAM_MUSIC)
+        try {
+            victory!!.setDataSource(this, Uri.parse("android.resource://"+this.packageName+"/"+R.raw.victory))
+            victory!!.prepare()
+            victory!!.start()
+
+        }catch (e: IOException){
+            println("Hata")
+        }
+    }
+
+    private fun stopAudioForVictory(){
+
+        if(victory!!.isPlaying){
+            victory!!.stop()
+            victory!!.reset()
+            victory!!.release()
+        }
+
+    }
+
     private fun playAudioForNope(){
 
         mpForNope = MediaPlayer()
         mpForNope!!.setAudioStreamType(AudioManager.STREAM_MUSIC)
 
         try {
-            mpForNope!!.setDataSource(this, Uri.parse("android.resource://"+this.packageName+"/"+R.raw.nope))
+            mpForNope!!.setDataSource(this, Uri.parse("android.resource://"+this.packageName+"/"+R.raw.congrats))
             mpForNope!!.prepare()
             mpForNope!!.start()
 
@@ -328,7 +355,7 @@ class Game : AppCompatActivity() {
         mpForEnd!!.setAudioStreamType(AudioManager.STREAM_MUSIC)
 
         try {
-            mpForEnd!!.setDataSource(this, Uri.parse("android.resource://"+this.packageName+"/"+R.raw.yeter))
+            mpForEnd!!.setDataSource(this, Uri.parse("android.resource://"+this.packageName+"/"+R.raw.shocked))
             mpForEnd!!.prepare()
             mpForEnd!!.start()
 
@@ -352,7 +379,7 @@ class Game : AppCompatActivity() {
         mediaPlayer!!.setAudioStreamType(AudioManager.STREAM_MUSIC)
 
         try {
-            mediaPlayer!!.setDataSource(this, Uri.parse("android.resource://"+this.packageName+"/"+R.raw.vodka))
+            mediaPlayer!!.setDataSource(this, Uri.parse("android.resource://"+this.packageName+"/"+R.raw.prologue))
             mediaPlayer!!.prepare()
             mediaPlayer!!.start()
 
@@ -491,6 +518,28 @@ class Game : AppCompatActivity() {
             updateViews()
             calculateTrueResult(index)
 
+            object : CountDownTimer(2500,2500){
+                override fun onTick(millisUntilFinished: Long) {
+                    for (button in buttons) {    // Başta Kartlar Ters Gözüksün Diye
+                        button.isEnabled = false
+                    }
+                    playAudioForNope()
+
+                }
+
+                override fun onFinish() {
+                    for (button in buttons) {    // Başta Kartlar Ters Gözüksün Diye
+                        button.isEnabled = true
+                    }
+                    stopAudioForNope()
+                }
+
+
+            }.start()
+
+
+
+
             var bittimi = 1
             for(card in cards){
 
@@ -509,7 +558,9 @@ class Game : AppCompatActivity() {
                     stopAudioForEnd()
                 }
                 timer.cancel()
+                playAudioForVictory()
                 oyunBittiBasarili()
+
 
             }
 
@@ -523,7 +574,7 @@ class Game : AppCompatActivity() {
                     calculateFalseResult(indexOfSingleSelectionCard, index)
                     buttons[index].setImageResource(cards[index].image)
                     buttons[indexOfSingleSelectionCard].setImageResource(cards[indexOfSingleSelectionCard].image)
-                    playAudioForNope()
+
                 }
 
                 override fun onFinish() {
@@ -532,7 +583,7 @@ class Game : AppCompatActivity() {
                     }
                     restoreCards()
                     updateViews()
-                    stopAudioForNope()
+
                 }
             }.start()
 
@@ -547,7 +598,7 @@ class Game : AppCompatActivity() {
             override fun onTick(p0: Long) {
                 binding.sayac.text = "${p0/1000}"
 
-                if((p0/1000)<10 && mpForEndFlag){
+                if((p0/1000)<2 && mpForEndFlag){
                     playAudioForEnd()
                     mpForEndFlag = false
                 }
