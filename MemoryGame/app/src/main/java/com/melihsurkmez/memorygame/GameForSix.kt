@@ -29,12 +29,10 @@ class GameForSix : AppCompatActivity() {
     var cards = ArrayList<Card>()
     var cards2 = ArrayList<Card>()
     var indexOfSingleSelectionCard : Int? =null
-    var mediaPlayer : MediaPlayer?=null
-    var mpForNope : MediaPlayer?=null
-    var mpForEndFlag = true
-    var mpForEnd : MediaPlayer?=null
-
-
+    var mMediaPlayer: MediaPlayer? = null
+    var mCMediaPlayer: MediaPlayer? = null
+    var mSMediaPlayer: MediaPlayer? = null
+    var mVMediaPlayer: MediaPlayer? = null
 
     var homeName1Counter =0
     var homeName2Counter =0
@@ -105,7 +103,13 @@ class GameForSix : AppCompatActivity() {
             ,R.drawable.otuzdokuz,R.drawable.kirk,R.drawable.kirkbir,R.drawable.kirktiki,R.drawable.kirkuc
             ,R.drawable.kirkdort)
 
+        binding.sesAc.setOnClickListener {
+            playSound()
+        }
 
+        binding.sesKapa.setOnClickListener {
+            pauseSound()
+        }
 
 
 
@@ -189,8 +193,7 @@ class GameForSix : AppCompatActivity() {
 
 
         myTimer()
-        playAudio()
-
+        playSound()
 
 
 
@@ -217,6 +220,86 @@ class GameForSix : AppCompatActivity() {
             }
         }
     }
+    fun playSound() {
+        if (mMediaPlayer == null) {
+            mMediaPlayer = MediaPlayer.create(this, R.raw.prologue)
+            mMediaPlayer!!.isLooping = true
+            mMediaPlayer!!.start()
+        } else mMediaPlayer!!.start()
+    }
+    fun pauseSound() {
+        if (mMediaPlayer?.isPlaying == true) mMediaPlayer?.pause()
+    }
+    fun stopSound() {
+        if (mMediaPlayer != null) {
+            mMediaPlayer!!.stop()
+            mMediaPlayer!!.release()
+            mMediaPlayer = null
+        }
+    }
+    // 4. Destroys the MediaPlayer instance when the app is closed
+    override fun onStop() {
+        super.onStop()
+        if (mMediaPlayer != null) {
+            mMediaPlayer!!.release()
+            mMediaPlayer = null
+        }
+    }
+    fun CongratsplaySound() {
+        if (mCMediaPlayer == null) {
+            mCMediaPlayer = MediaPlayer.create(this, R.raw.congrats)
+            mCMediaPlayer!!.isLooping = true
+            mCMediaPlayer!!.start()
+        } else mCMediaPlayer!!.start()
+    }
+    fun CongratspauseSound() {
+        if (mCMediaPlayer?.isPlaying == true) mCMediaPlayer?.pause()
+    }
+    fun CongratstopSound() {
+        if (mCMediaPlayer != null) {
+            mCMediaPlayer!!.stop()
+            mCMediaPlayer!!.release()
+            mCMediaPlayer = null
+        }
+    }
+    // 4. Destroys the MediaPlayer instance when the app is closed
+
+    fun shockedplaySound() {
+        if (mSMediaPlayer == null) {
+            mSMediaPlayer = MediaPlayer.create(this, R.raw.shocked)
+            mSMediaPlayer!!.isLooping = true
+            mSMediaPlayer!!.start()
+        } else mSMediaPlayer!!.start()
+    }
+    fun shockedpauseSound() {
+        if (mSMediaPlayer?.isPlaying == true) mSMediaPlayer?.pause()
+    }
+    fun shockedstopSound() {
+        if (mSMediaPlayer != null) {
+            mSMediaPlayer!!.stop()
+            mSMediaPlayer!!.release()
+            mSMediaPlayer = null
+        }
+    }
+    // 4. Destroys the MediaPlayer instance when the app is closed
+
+    fun victoryplaySound() {
+        if (mVMediaPlayer == null) {
+            mVMediaPlayer = MediaPlayer.create(this, R.raw.victory)
+            mVMediaPlayer!!.isLooping = true
+            mVMediaPlayer!!.start()
+        } else mVMediaPlayer!!.start()
+    }
+    fun victorypauseSound() {
+        if (mVMediaPlayer?.isPlaying == true) mVMediaPlayer?.pause()
+    }
+    fun victorystopSound() {
+        if (mVMediaPlayer != null) {
+            mVMediaPlayer!!.stop()
+            mVMediaPlayer!!.release()
+            mVMediaPlayer = null
+        }
+    }
 
     private fun oyunBittiBasarili(){
         var builder: AlertDialog.Builder
@@ -231,6 +314,10 @@ class GameForSix : AppCompatActivity() {
             //take two parameters dialogInterface and an int
             .setPositiveButton("Ana Menüye Dön") { dialogInterface, it ->
                 intent = Intent(applicationContext,Preferences::class.java)
+                shockedstopSound()
+                victorystopSound()
+                CongratstopSound()
+                stopSound()
                 startActivity(intent)
                 finish() // close the app when yes clicked
             }
@@ -238,6 +325,10 @@ class GameForSix : AppCompatActivity() {
                 intent = Intent(applicationContext,SplashScreen::class.java)
                 intent.putExtra("zorlukderece", "Zor");
                 intent.putExtra("kisisayisi", "Tek");
+                shockedstopSound()
+                victorystopSound()
+                CongratstopSound()
+                stopSound()
                 startActivity(intent)
                 dialogInterface.cancel()
             }
@@ -259,6 +350,10 @@ class GameForSix : AppCompatActivity() {
             //take two parameters dialogInterface and an int
             .setPositiveButton("Ana Menüye Dön") { dialogInterface, it ->
                 intent = Intent(applicationContext,Preferences::class.java)
+                shockedstopSound()
+                victorystopSound()
+                CongratstopSound()
+                stopSound()
                 startActivity(intent)
                 finish() // close the app when yes clicked
             }
@@ -266,6 +361,10 @@ class GameForSix : AppCompatActivity() {
                 intent = Intent(applicationContext,SplashScreen::class.java)
                 intent.putExtra("zorlukderece", "Zor");
                 intent.putExtra("kisisayisi", "Tek");
+                shockedstopSound()
+                victorystopSound()
+                CongratstopSound()
+                stopSound()
                 startActivity(intent)
                 dialogInterface.cancel()
             }
@@ -274,76 +373,7 @@ class GameForSix : AppCompatActivity() {
     }
 
 
-    private fun playAudioForNope(){
 
-        mpForNope = MediaPlayer()
-        mpForNope!!.setAudioStreamType(AudioManager.STREAM_MUSIC)
-
-        try {
-            mpForNope!!.setDataSource(this, Uri.parse("android.resource://"+this.packageName+"/"+R.raw.nope))
-            mpForNope!!.prepare()
-            mpForNope!!.start()
-
-        }catch (e: IOException){
-            println("Hata")
-        }
-
-    }
-
-    private fun stopAudioForNope(){
-        if(mpForNope!!.isPlaying){
-            mpForNope!!.stop()
-            mpForNope!!.reset()
-            mpForNope!!.release()
-        }
-    }
-
-    private fun playAudioForEnd(){
-
-        mpForEnd = MediaPlayer()
-        mpForEnd!!.setAudioStreamType(AudioManager.STREAM_MUSIC)
-
-        try {
-            mpForEnd!!.setDataSource(this, Uri.parse("android.resource://"+this.packageName+"/"+R.raw.yeter))
-            mpForEnd!!.prepare()
-            mpForEnd!!.start()
-
-        }catch (e: IOException){
-            println("Hata")
-        }
-    }
-
-    private fun stopAudioForEnd(){
-        if(mpForEnd!!.isPlaying){
-            mpForEnd!!.stop()
-            mpForEnd!!.reset()
-            mpForEnd!!.release()
-        }
-    }
-
-
-    private fun playAudio(){
-
-        mediaPlayer = MediaPlayer()
-        mediaPlayer!!.setAudioStreamType(AudioManager.STREAM_MUSIC)
-
-        try {
-            mediaPlayer!!.setDataSource(this, Uri.parse("android.resource://"+this.packageName+"/"+R.raw.vodka))
-            mediaPlayer!!.prepare()
-            mediaPlayer!!.start()
-
-        }catch (e: IOException){
-            println("Hata")
-        }
-    }
-
-    private fun stopAudio(){
-        if(mediaPlayer!!.isPlaying){
-            mediaPlayer!!.stop()
-            mediaPlayer!!.reset()
-            mediaPlayer!!.release()
-        }
-    }
 
     private fun calculateTrueResult(index :Int){
 
@@ -409,6 +439,7 @@ class GameForSix : AppCompatActivity() {
     }
 
     private fun updateModel(index: Int) {
+        CongratstopSound()
         var card = cards[index]
         val new_text:String = card.name+"(Puan:"+card.score+""+",Ev:"+card.home+")"
         val textView = TextView(this)
@@ -473,6 +504,7 @@ class GameForSix : AppCompatActivity() {
             calculateTrueResult(index)
 
             var bittimi = 1
+            CongratsplaySound()
             for(card in cards){
 
                 if(!card.isMatched){
@@ -485,13 +517,11 @@ class GameForSix : AppCompatActivity() {
 
             if(bittimi==1){
                 println("Buraya Girdim")
-                stopAudio()
-                if(!mpForEndFlag){
-                    stopAudioForEnd()
-                }
+                stopSound()
+                victoryplaySound()
+                CongratstopSound()
                 timer.cancel()
                 oyunBittiBasarili()
-
             }
 
         }else{
@@ -504,7 +534,7 @@ class GameForSix : AppCompatActivity() {
                     calculateFalseResult(indexOfSingleSelectionCard, index)
                     buttons[index].setImageResource(cards[index].image)
                     buttons[indexOfSingleSelectionCard].setImageResource(cards[indexOfSingleSelectionCard].image)
-                    playAudioForNope()
+
                 }
 
                 override fun onFinish() {
@@ -513,7 +543,7 @@ class GameForSix : AppCompatActivity() {
                     }
                     restoreCards()
                     updateViews()
-                    stopAudioForNope()
+
                 }
             }.start()
 
@@ -528,17 +558,13 @@ class GameForSix : AppCompatActivity() {
             override fun onTick(p0: Long) {
                 sayac.text = "${p0/1000}"
 
-                if((p0/1000)<10 && mpForEndFlag){
-                    playAudioForEnd()
-                    mpForEndFlag = false
-                }
 
             }
 
             override fun onFinish() {
                 sayac.text = "0"
-                stopAudioForEnd()
-                stopAudio()
+                stopSound()
+                shockedplaySound()
                 oyunBittiBasarisiz()
             }
 

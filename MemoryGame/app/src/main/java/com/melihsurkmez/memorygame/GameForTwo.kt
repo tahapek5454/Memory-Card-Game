@@ -284,11 +284,11 @@ class GameForTwo : AppCompatActivity() {
             //take two parameters dialogInterface and an int
             .setPositiveButton("Ana Menüye Dön") { dialogInterface, it ->
                 intent = Intent(applicationContext,Preferences::class.java)
-                startActivity(intent)
                 shockedstopSound()
                 victorystopSound()
                 CongratstopSound()
                 stopSound()
+                startActivity(intent)
                 finish() // close the app when yes clicked
             }
             .setNegativeButton("Tekrar Oyna") { dialogInterface, it ->
@@ -448,10 +448,10 @@ class GameForTwo : AppCompatActivity() {
             }
 
             if(bittimi==1){
-                println("Buraya Girdim")
+                stopSound()
                 victoryplaySound()
-                timer.cancel()
                 CongratstopSound()
+                timer.cancel()
                 oyunBittiBasarili()
 
             }
@@ -494,6 +494,7 @@ class GameForTwo : AppCompatActivity() {
 
             override fun onFinish() {
                 sayac.text = "0"
+                stopSound()
                 shockedplaySound()
                 oyunBittiBasarisiz()
             }

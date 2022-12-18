@@ -533,6 +533,7 @@ class Game2 : AppCompatActivity() {
                 println("Buraya Girdim")
                 stopSound()
                 victoryplaySound()
+                CongratstopSound()
                 timer.cancel()
                 oyunBittiBasarili()
 

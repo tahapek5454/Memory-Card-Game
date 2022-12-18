@@ -241,6 +241,10 @@ class Game : AppCompatActivity() {
             //take two parameters dialogInterface and an int
             .setPositiveButton("Ana Menüye Dön") { dialogInterface, it ->
                 intent = Intent(applicationContext,Preferences::class.java)
+                shockedstopSound()
+                victorystopSound()
+                CongratstopSound()
+                stopSound()
                 startActivity(intent)
                 finish() // close the app when yes clicked
             }
@@ -248,7 +252,10 @@ class Game : AppCompatActivity() {
                 intent = Intent(applicationContext,SplashScreen::class.java)
                 intent.putExtra("zorlukderece", "Orta");
                 intent.putExtra("kisisayisi", "Tek");
+                shockedstopSound()
                 victorystopSound()
+                CongratstopSound()
+                stopSound()
                 startActivity(intent)
                 dialogInterface.cancel()
             }
@@ -351,6 +358,10 @@ class Game : AppCompatActivity() {
             //take two parameters dialogInterface and an int
             .setPositiveButton("Ana Menüye Dön") { dialogInterface, it ->
                 intent = Intent(applicationContext,Preferences::class.java)
+                shockedstopSound()
+                victorystopSound()
+                CongratstopSound()
+                stopSound()
                 startActivity(intent)
                 finish() // close the app when yes clicked
             }
@@ -358,6 +369,10 @@ class Game : AppCompatActivity() {
                 intent = Intent(applicationContext,SplashScreen::class.java)
                 intent.putExtra("zorlukderece", "Orta");
                 intent.putExtra("kisisayisi", "Tek");
+                shockedstopSound()
+                victorystopSound()
+                CongratstopSound()
+                stopSound()
                 startActivity(intent)
                 dialogInterface.cancel()
             }
@@ -490,22 +505,7 @@ class Game : AppCompatActivity() {
             cards[index].isFaceUp = !cards[index].isFaceUp
             updateViews()
             calculateTrueResult(index)
-
-            object : CountDownTimer(2500,2500){
-                override fun onTick(millisUntilFinished: Long) {
-                    CongratsplaySound()
-                }
-
-                override fun onFinish() {
-                    CongratstopSound()
-                }
-
-
-            }.start()
-
-
-
-
+            CongratsplaySound()
             var bittimi = 1
             for(card in cards){
 
@@ -518,9 +518,10 @@ class Game : AppCompatActivity() {
             }
 
             if(bittimi==1){
-                println("Buraya Girdim")
-                timer.cancel()
                 victoryplaySound()
+                timer.cancel()
+                CongratstopSound()
+                stopSound()
                 oyunBittiBasarili()
 
 
@@ -563,7 +564,8 @@ class Game : AppCompatActivity() {
 
             override fun onFinish() {
                 binding.sayac.text = "0"
-
+                stopSound()
+                shockedplaySound()
                 oyunBittiBasarisiz()
             }
 
