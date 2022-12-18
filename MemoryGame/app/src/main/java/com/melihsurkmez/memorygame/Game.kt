@@ -421,8 +421,6 @@ class Game : AppCompatActivity() {
 
             if(card.isFaceUp){
 
-
-
                 button.setImageResource(card.image)
             }else{
                 button.setImageResource(R.drawable.arka)
