@@ -2,6 +2,7 @@ package com.melihsurkmez.memorygame
 
 import android.content.DialogInterface
 import android.content.Intent
+import android.graphics.Color
 import android.graphics.Typeface
 import android.media.AudioManager
 import android.media.MediaPlayer
@@ -16,6 +17,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import com.melihsurkmez.memorygame.databinding.ActivityGameBinding
 import com.melihsurkmez.memorygame.databinding.ActivityGameForSix2Binding
+import kotlinx.android.synthetic.main.activity_game2.*
+
 import kotlinx.android.synthetic.main.activity_game_for_six.*
 import kotlinx.android.synthetic.main.activity_game_for_six2.*
 import kotlinx.android.synthetic.main.activity_game_for_six2.imageButton
@@ -54,7 +57,10 @@ import kotlinx.android.synthetic.main.activity_game_for_six2.imageButton6
 import kotlinx.android.synthetic.main.activity_game_for_six2.imageButton7
 import kotlinx.android.synthetic.main.activity_game_for_six2.imageButton8
 import kotlinx.android.synthetic.main.activity_game_for_six2.imageButton9
+import kotlinx.android.synthetic.main.activity_game_for_six2.oy1text
+import kotlinx.android.synthetic.main.activity_game_for_six2.oy2text
 import kotlinx.android.synthetic.main.activity_game_for_six2.puan
+import kotlinx.android.synthetic.main.activity_game_for_six2.puan2
 import kotlinx.android.synthetic.main.activity_game_for_six2.sayac
 import java.io.IOException
 
@@ -248,7 +254,7 @@ class GameForSix2 : AppCompatActivity() {
         //cards = images.indices.map { index ->
         //    Card(images[index])
         //}
-
+        oy1text.setTextColor(Color.parseColor("#FF0000"))
         buttons.forEachIndexed { index, button ->
             button.setOnClickListener {
 
@@ -595,6 +601,13 @@ class GameForSix2 : AppCompatActivity() {
                     }
                     calculateFalseResult(indexOfSingleSelectionCard, index)
                     oyuncu = !oyuncu
+                    if(oyuncu){
+                        oy1text.setTextColor(Color.parseColor("#FF0000"))
+                        oy2text.setTextColor(Color.parseColor("#000000"))
+                    }else{
+                        oy1text.setTextColor(Color.parseColor("#000000"))
+                        oy2text.setTextColor(Color.parseColor("#FF0000"))
+                    }
                     buttons[index].setImageResource(cards[index].image)
                     buttons[indexOfSingleSelectionCard].setImageResource(cards[indexOfSingleSelectionCard].image)
                 }

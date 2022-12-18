@@ -2,6 +2,7 @@ package com.melihsurkmez.memorygame
 
 import android.content.DialogInterface
 import android.content.Intent
+import android.graphics.Color
 import android.graphics.Typeface
 import android.media.AudioManager
 import android.media.MediaPlayer
@@ -17,10 +18,11 @@ import androidx.appcompat.app.AlertDialog
 import com.melihsurkmez.memorygame.databinding.ActivityGame2Binding
 import com.melihsurkmez.memorygame.databinding.ActivityGameBinding
 import com.melihsurkmez.memorygame.databinding.ActivityGameForTwo2Binding
-import kotlinx.android.synthetic.main.activity_game2.*
-import kotlinx.android.synthetic.main.activity_game_for_six.*
+
 
 import kotlinx.android.synthetic.main.activity_game_for_two2.*
+import kotlinx.android.synthetic.main.activity_game_for_two2.oy1text
+import kotlinx.android.synthetic.main.activity_game_for_two2.oy2text
 import kotlinx.android.synthetic.main.activity_game_for_two2.puan
 import kotlinx.android.synthetic.main.activity_game_for_two2.puan2
 import kotlinx.android.synthetic.main.activity_game_for_two2.sayac
@@ -155,6 +157,8 @@ class GameForTwo2 : AppCompatActivity() {
         //cards = images.indices.map { index ->
         //    Card(images[index])
         //}
+
+        oy1text.setTextColor(Color.parseColor("#FF0000"))
 
         buttons.forEachIndexed { index, button ->
             button.setOnClickListener {
@@ -512,6 +516,13 @@ class GameForTwo2 : AppCompatActivity() {
 
                     calculateFalseResult(indexOfSingleSelectionCard, index)
                     oyuncu = !oyuncu
+                    if(oyuncu){
+                        oy1text.setTextColor(Color.parseColor("#FF0000"))
+                        oy2text.setTextColor(Color.parseColor("#000000"))
+                    }else{
+                        oy1text.setTextColor(Color.parseColor("#000000"))
+                        oy2text.setTextColor(Color.parseColor("#FF0000"))
+                    }
                     buttons[index].setImageResource(cards[index].image)
                     buttons[indexOfSingleSelectionCard].setImageResource(cards[indexOfSingleSelectionCard].image)
                 }
