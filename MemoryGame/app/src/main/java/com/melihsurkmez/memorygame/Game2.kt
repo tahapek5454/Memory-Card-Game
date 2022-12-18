@@ -34,9 +34,13 @@ import kotlinx.android.synthetic.main.activity_game2.imageButton6
 import kotlinx.android.synthetic.main.activity_game2.imageButton7
 import kotlinx.android.synthetic.main.activity_game2.imageButton8
 import kotlinx.android.synthetic.main.activity_game2.imageButton9
+import kotlinx.android.synthetic.main.activity_game2.oy1text
+import kotlinx.android.synthetic.main.activity_game2.oy2text
 import kotlinx.android.synthetic.main.activity_game2.puan
+import kotlinx.android.synthetic.main.activity_game2.puan2
 import kotlinx.android.synthetic.main.activity_game2.sayac
 import kotlinx.android.synthetic.main.activity_game_for_six.*
+import kotlinx.android.synthetic.main.activity_game_for_two2.*
 import java.io.IOException
 
 class Game2 : AppCompatActivity() {
@@ -300,9 +304,20 @@ class Game2 : AppCompatActivity() {
 
         builder = AlertDialog.Builder(this)
 
+        var onep = puan.text.toString().toInt()
+        var twop = puan2.text.toString().toInt()
 
-        builder.setTitle("Bravo! Kazandın!")
-            .setMessage("Puanın:"+puan.text)
+        var kazanan = ""
+
+        if(onep > twop){
+            kazanan = "1. Oyuncu Kazandı"
+        }else{
+            kazanan = "2. Oyuncu Kazandı"
+        }
+
+        builder.setTitle(kazanan)
+            .setMessage("1. Oyuncu Puanı: "+puan.text+"\n"+"2. Oyuncu Puanı: "+puan2.text )
+
             .setCancelable(true) // dialog box in cancellable
             // set positive button
             //take two parameters dialogInterface and an int
@@ -338,7 +353,8 @@ class Game2 : AppCompatActivity() {
 
 
         builder.setTitle("Yetişemedin! Kaybettin :(")
-            .setMessage("Puanın:"+puan.text)
+            .setMessage("1. Oyuncu Puanı: "+puan.text+"\n"+"2. Oyuncu Puanı: "+puan2.text )
+
             .setCancelable(true) // dialog box in cancellable
             // set positive button
             //take two parameters dialogInterface and an int
