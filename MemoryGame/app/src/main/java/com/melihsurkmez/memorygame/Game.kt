@@ -564,6 +564,8 @@ class Game : AppCompatActivity() {
 
             override fun onFinish() {
                 binding.sayac.text = "0"
+                victorystopSound()
+                CongratstopSound()
                 stopSound()
                 shockedplaySound()
                 oyunBittiBasarisiz()

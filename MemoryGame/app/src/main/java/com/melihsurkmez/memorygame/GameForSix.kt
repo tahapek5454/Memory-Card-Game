@@ -562,7 +562,9 @@ class GameForSix : AppCompatActivity() {
             }
 
             override fun onFinish() {
-                sayac.text = "0"
+                binding.sayac.text = "0"
+                victorystopSound()
+                CongratstopSound()
                 stopSound()
                 shockedplaySound()
                 oyunBittiBasarisiz()
