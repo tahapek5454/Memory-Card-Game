@@ -26,11 +26,11 @@ class Preferences : AppCompatActivity() {
         oyuncusayisi.setOnCheckedChangeListener { group,checkedId ->
             if(checkedId == R.id.tekkisilik){
                 kisisayisi="Tek"
-                println("a")
+
             }
             if(checkedId== R.id.ciftkisilik){
                 kisisayisi="Çift"
-                println("a")
+
             }
         }
 
@@ -39,21 +39,19 @@ class Preferences : AppCompatActivity() {
         zorlukderecesigroup.setOnCheckedChangeListener { group,checkedId ->
             if(checkedId == binding.kolay.id){
                 zorlukderece  = "Kolay"
-                println("a")
+
             }
             if(checkedId == R.id.orta){
                 zorlukderece  = "Orta"
-                println("a")
+
             }
             if(checkedId == R.id.zor){
                 zorlukderece  = "Zor"
-                println("a")
+
             }
         }
 
         binding.oyunbutonu.setOnClickListener {
-
-            println(kisisayisi+zorlukderece)
 
             if(kisisayisi!="" && zorlukderece!=""){
 

@@ -53,7 +53,6 @@ class GameForTwo : AppCompatActivity() {
 
         val arrayList = intent.getSerializableExtra("cards") as ArrayList<Card>
         cards2=arrayList
-        println(arrayList.size)
         buttons.add(deneme1)
         buttons.add(deneme2)
         buttons.add(deneme3)
@@ -121,6 +120,12 @@ class GameForTwo : AppCompatActivity() {
 
 
         cards.shuffle()
+
+        cards.forEachIndexed { index, card ->
+
+            println((index+1).toString()+". kart = "+card.name)
+        }
+        println("---------------------------------------------")
 
 
 

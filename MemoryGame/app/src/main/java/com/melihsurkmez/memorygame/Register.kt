@@ -77,7 +77,7 @@ class Register : AppCompatActivity() {
     fun register(username: String, email: String, password: String){
 
         val parameter = username+"-"+email+"-"+password
-        val URL:String = "http://34.171.190.15:5000/api/register/"+parameter
+        val URL:String = "http://34.136.140.246:5000/api/register/"+parameter
 
         if(URL.isNotEmpty()){
 
@@ -108,7 +108,6 @@ class Register : AppCompatActivity() {
                             val body = response?.body?.string()
 
                             val response: String?=body.toString()
-                            println(response)
                             if(response=="OK"){
 
                                 Handler(Looper.getMainLooper()).post {

@@ -61,7 +61,6 @@ class GameForTwo2 : AppCompatActivity() {
 
         val arrayList = intent.getSerializableExtra("cards") as ArrayList<Card>
         cards2=arrayList
-        println(arrayList.size)
         buttons.add(deneme1)
         buttons.add(deneme2)
         buttons.add(deneme3)
@@ -135,6 +134,11 @@ class GameForTwo2 : AppCompatActivity() {
 
         cards.shuffle()
 
+        cards.forEachIndexed { index, card ->
+
+            println((index+1).toString()+". kart = "+card.name)
+        }
+        println("---------------------------------------------")
 
 
         // karistirdik da artik kartlar buttonlarla index ile iliskili davrnacak
@@ -511,7 +515,6 @@ class GameForTwo2 : AppCompatActivity() {
             }
 
             if(bittimi==1){
-                println("Buraya Girdim")
                 stopSound()
                 victoryplaySound()
                 CongratstopSound()

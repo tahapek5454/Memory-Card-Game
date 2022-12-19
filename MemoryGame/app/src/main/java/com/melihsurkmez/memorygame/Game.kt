@@ -77,7 +77,6 @@ class Game : AppCompatActivity() {
 
         val arrayList = intent.getSerializableExtra("cards") as ArrayList<Card>
         cards2=arrayList
-        println(arrayList.size)
         buttons.add(imageButton)
         buttons.add(imageButton2)
         buttons.add(imageButton3)
@@ -135,6 +134,8 @@ class Game : AppCompatActivity() {
         // simdi sira karistirmakta
         cards2.shuffle()
 
+
+
         var i = 0
         while(cards.size < buttons.size){
 
@@ -190,6 +191,11 @@ class Game : AppCompatActivity() {
 
         cards.shuffle()
 
+        cards.forEachIndexed { index, card ->
+
+            println((index+1).toString()+". kart = "+card.name)
+        }
+        println("---------------------------------------------")
 
 
         // karistirdik da artik kartlar buttonlarla index ile iliskili davrnacak

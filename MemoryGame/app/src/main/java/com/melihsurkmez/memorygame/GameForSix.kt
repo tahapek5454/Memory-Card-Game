@@ -50,7 +50,6 @@ class GameForSix : AppCompatActivity() {
 
         val arrayList = intent.getSerializableExtra("cards") as ArrayList<Card>
         cards2=arrayList
-        println(arrayList.size)
         buttons.add(imageButton)
         buttons.add(imageButton2)
         buttons.add(imageButton3)
@@ -183,6 +182,12 @@ class GameForSix : AppCompatActivity() {
 
 
         cards.shuffle()
+
+        cards.forEachIndexed { index, card ->
+
+            println((index+1).toString()+". kart = "+card.name)
+        }
+        println("---------------------------------------------")
 
 
 
@@ -516,7 +521,6 @@ class GameForSix : AppCompatActivity() {
             }
 
             if(bittimi==1){
-                println("Buraya Girdim")
                 stopSound()
                 victoryplaySound()
                 CongratstopSound()

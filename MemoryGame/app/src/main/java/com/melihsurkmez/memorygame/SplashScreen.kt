@@ -26,7 +26,6 @@ class SplashScreen : AppCompatActivity() {
         val kisisayisi = bundle!!.getString("kisisayisi")
         val zorlukderece = bundle!!.getString("zorlukderece")
 
-        println(kisisayisi+zorlukderece)
 
         val animation1 = AnimationUtils.loadAnimation(this,R.anim.animation1)
         val animation2 = AnimationUtils.loadAnimation(this,R.anim.animation2)

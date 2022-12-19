@@ -19,6 +19,8 @@ conn = mysql.connector.connect(host='34.71.163.17',
                         password='yazlab123',
                         database='memorygame'
                         )
+
+conn.cmd_stmt_execute('set max_allowed_packet=67108864')
     
 conn_cursor = conn.cursor(buffered=True)
 

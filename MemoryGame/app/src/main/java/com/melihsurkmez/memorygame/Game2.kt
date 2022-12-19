@@ -75,7 +75,6 @@ class Game2 : AppCompatActivity() {
 
         val arrayList = intent.getSerializableExtra("cards") as ArrayList<Card>
         cards2=arrayList
-        println(arrayList.size)
         buttons.add(imageButton)
         buttons.add(imageButton2)
         buttons.add(imageButton3)
@@ -186,6 +185,11 @@ class Game2 : AppCompatActivity() {
 
         cards.shuffle()
 
+        cards.forEachIndexed { index, card ->
+
+            println((index+1).toString()+". kart = "+card.name)
+        }
+        println("---------------------------------------------")
 
 
         // karistirdik da artik kartlar buttonlarla index ile iliskili davrnacak
@@ -547,7 +551,6 @@ class Game2 : AppCompatActivity() {
             }
 
             if(bittimi==1){
-                println("Buraya Girdim")
                 stopSound()
                 victoryplaySound()
                 CongratstopSound()
