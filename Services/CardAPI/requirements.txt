@@ -3,3 +3,4 @@ redis==4.4.0
 mysql==0.0.3
 mysqlclient==2.1.0
 mysql-connector-python
+APScheduler

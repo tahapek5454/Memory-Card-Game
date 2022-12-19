@@ -1,26 +1,40 @@
 from flask import Flask, jsonify, request
 import mysql.connector
 import redis
-r = redis.Redis(
-    host='34.170.163.125',
-    port=6379, 
-    password='kouyazlab',
-)
+from apscheduler.schedulers.background import BackgroundScheduler
 
-r.flushdb()
-r.flushall()
-# DB
+global conn 
+conn = mysql.connector.connect(host='10.64.15.42',
+                        user='root',
+                        password='yazlab123',
+                        database='memorygame'
+                        )
+global conn_cursor
+conn_cursor = conn.cursor(buffered=True)
+
+
+scheduler = BackgroundScheduler()
+@scheduler.scheduled_job('cron', hour='*')
+
+def refresh_database():
+    conn_cursor.close()
+    conn.close()
+    conn = mysql.connector.connect(host='10.64.15.42',
+                        user='root',
+                        password='yazlab123',
+                        database='memorygame'
+                        )
+    conn_cursor = conn.cursor(buffered=True)
+
 def getCardsFromDb():
-    cnx = mysql.connector.connect(user="root", password="yazlab123", host="34.71.163.17", database="memorygame")
-    print(cnx)
-    myCursor = cnx.cursor()
+    
     response = []
 
     query = "SELECT c.id, c.name, c.score, h.Name, h.Score, c.image FROM Cards as c, Home as h WHERE c.home_id = h.id"
     try:
-        myCursor.execute(query)
+        conn_cursor.execute(query)
 
-        result = myCursor.fetchall()
+        result = conn_cursor.fetchall()
         
         for i in result:
             myDict = {}
@@ -49,4 +63,6 @@ def getCard():
     return "Hata" 
     
     
-app.run("0.0.0.0",debug=True,port=5001)
+if __name__ == '__main__':
+    scheduler.start()
+    app.run("0.0.0.0",debug=True,port=5001)

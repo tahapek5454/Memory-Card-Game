@@ -7,12 +7,12 @@ from apscheduler.schedulers.background import BackgroundScheduler
 
 app = flask.Flask(__name__)
 r = redis.Redis(
-    host='34.170.163.125',
+    host='10.64.4.152',
     port=6379, 
     password='kouyazlab',
 )
 global conn 
-conn = mysql.connector.connect(host='34.71.163.17',
+conn = mysql.connector.connect(host='10.64.15.42',
                         user='root',
                         password='yazlab123',
                         database='memorygame'
@@ -27,7 +27,7 @@ scheduler = BackgroundScheduler()
 def refresh_database():
     conn_cursor.close()
     conn.close()
-    conn = mysql.connector.connect(host='34.71.163.17',
+    conn = mysql.connector.connect(host='10.64.15.42',
                         user='root',
                         password='yazlab123',
                         database='memorygame'
