@@ -2,6 +2,7 @@ import flask
 import mysql.connector
 import redis
 from flask import request, jsonify
+from apscheduler.schedulers.background import BackgroundScheduler
 
 
 app = flask.Flask(__name__)
@@ -10,22 +11,30 @@ r = redis.Redis(
     port=6379, 
     password='kouyazlab',
 )
-
-r.flushdb()
-r.flushall()
-username_password=[]
+global conn 
 conn = mysql.connector.connect(host='34.71.163.17',
                         user='root',
                         password='yazlab123',
                         database='memorygame'
                         )
-
-conn.cmd_stmt_execute('set max_allowed_packet=67108864')
-    
+global conn_cursor
 conn_cursor = conn.cursor(buffered=True)
 
 
+scheduler = BackgroundScheduler()
+@scheduler.scheduled_job('cron', hour='*')
 
+def refresh_database():
+    conn_cursor.close()
+    conn.close()
+    conn = mysql.connector.connect(host='34.71.163.17',
+                        user='root',
+                        password='yazlab123',
+                        database='memorygame'
+                        )
+    conn_cursor = conn.cursor(buffered=True)
+r.flushdb()
+r.flushall()
 @app.route('/', methods=['GET'])
 def home():
     return '''Login api is running now.'''
@@ -47,6 +56,7 @@ def login_control(username,password):
             return False
     
     else:
+       
         conn_cursor.execute(query)
         result=conn_cursor.fetchall()
         print(result)
@@ -68,6 +78,7 @@ def register_function(email,username,password):
             return False
     
     else:
+  
         conn_cursor.execute("Select Password from Users where Username='{}' OR Email='{}'".format(username,email))
         result=conn_cursor.fetchall()
         
@@ -77,6 +88,7 @@ def register_function(email,username,password):
             return False
     
         else:
+           
             conn_cursor.execute("INSERT INTO `memorygame`.`Users` (`Username`, `Email`,`Password`) VALUES ('{}', '{}','{}');".format(username,email,password))
             conn.commit()
 
@@ -102,6 +114,7 @@ def change_password(username,old_password,new_password):
     
         
         else:
+
             conn_cursor.execute(query)
             conn.commit()
             r.set(query,"True")
@@ -144,6 +157,10 @@ def chgpassword(data):
         return "NOTOK FLSUSR"    
 
 
-app.run("0.0.0.0",debug=True,port=5000)
+    
+
+if __name__ == '__main__':
+    scheduler.start()
+    app.run("0.0.0.0",debug=True,port=5000)
 
 
