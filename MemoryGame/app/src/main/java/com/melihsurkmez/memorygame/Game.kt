@@ -60,6 +60,7 @@ class Game : AppCompatActivity() {
     var mCMediaPlayer: MediaPlayer? = null
     var mSMediaPlayer: MediaPlayer? = null
     var mVMediaPlayer: MediaPlayer? = null
+    var mNMediaPlayer: MediaPlayer? = null
 
 
 
@@ -269,6 +270,24 @@ class Game : AppCompatActivity() {
             .show()
 
     }
+
+    fun NirvanaplaySound() {
+        if (mNMediaPlayer == null) {
+            mNMediaPlayer = MediaPlayer.create(this, R.raw.nirvana)
+            mNMediaPlayer!!.isLooping = true
+            mNMediaPlayer!!.start()
+        } else mNMediaPlayer!!.start()
+    }
+
+    fun NirvanastopSound() {
+        if (mNMediaPlayer != null) {
+            mNMediaPlayer!!.stop()
+            mNMediaPlayer!!.release()
+            mNMediaPlayer = null
+        }
+    }
+
+
     fun playSound() {
         if (mMediaPlayer == null) {
             mMediaPlayer = MediaPlayer.create(this, R.raw.prologue)
@@ -451,6 +470,7 @@ class Game : AppCompatActivity() {
 
 
     private fun updateModel(index: Int) {
+        NirvanastopSound()
         CongratstopSound()
         var card = cards[index]
         //println("Cards[index] lengt "+cards.size)
@@ -511,7 +531,12 @@ class Game : AppCompatActivity() {
             cards[index].isFaceUp = !cards[index].isFaceUp
             updateViews()
             calculateTrueResult(index)
-            CongratsplaySound()
+
+            if(cards[index].name == "Cedric Diggory"){
+                NirvanaplaySound()
+            }else{
+                CongratsplaySound()
+            }
             var bittimi = 1
             for(card in cards){
 

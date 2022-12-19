@@ -41,6 +41,7 @@ class GameForTwo2 : AppCompatActivity() {
     var mCMediaPlayer: MediaPlayer? = null
     var mSMediaPlayer: MediaPlayer? = null
     var mVMediaPlayer: MediaPlayer? = null
+    var mNMediaPlayer: MediaPlayer? = null
     var oyuncu = true
 
     var homeName1Counter =0
@@ -176,6 +177,23 @@ class GameForTwo2 : AppCompatActivity() {
             }
         }
     }
+
+    fun NirvanaplaySound() {
+        if (mNMediaPlayer == null) {
+            mNMediaPlayer = MediaPlayer.create(this, R.raw.nirvana)
+            mNMediaPlayer!!.isLooping = true
+            mNMediaPlayer!!.start()
+        } else mNMediaPlayer!!.start()
+    }
+
+    fun NirvanastopSound() {
+        if (mNMediaPlayer != null) {
+            mNMediaPlayer!!.stop()
+            mNMediaPlayer!!.release()
+            mNMediaPlayer = null
+        }
+    }
+
     fun playSound() {
         if (mMediaPlayer == null) {
             mMediaPlayer = MediaPlayer.create(this, R.raw.prologue)
@@ -438,6 +456,7 @@ class GameForTwo2 : AppCompatActivity() {
     }
 
     private fun updateModel(index: Int) {
+        NirvanastopSound()
         CongratstopSound()
         var card = cards[index]
         val new_text:String = card.name+"(Puan:"+card.score+""+",Ev:"+card.home+")"
@@ -503,7 +522,12 @@ class GameForTwo2 : AppCompatActivity() {
             calculateTrueResult(index)
 
             var bittimi = 1
-            CongratsplaySound()
+            if(cards[index].name == "Cedric Diggory"){
+                NirvanaplaySound()
+            }else{
+                CongratsplaySound()
+
+            }
             for(card in cards){
 
                 if(!card.isMatched){
