@@ -419,11 +419,11 @@ class Game : AppCompatActivity() {
 
         if(card1.home == card2.home){
 
-            calculate = (((card1.score+card2.score)/card1.home)*(timeScore.toFloat()/10)).toInt()
+            calculate = (((card1.score+card2.score)/card1.home)*((45-timeScore).toFloat()/10)).toInt()
             calculate = totalScore-calculate
 
         }else{
-            calculate = (((((card1.score+card2.score)/2)*card1.home*card2.home))*(timeScore.toFloat()/10)).toInt()
+            calculate = (((((card1.score+card2.score)/2)*card1.home*card2.home))*((45-timeScore).toFloat()/10)).toInt()
             calculate = totalScore-calculate
 
         }
