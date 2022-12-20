@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cardapi
+spec:
+  selector:
+    matchLabels:
+      app: cardapi
+  template:
+    metadata:
+      labels:
+        app: cardapi
+    spec:
+      containers:
+      - image: melihselamiurkmez/cardapi:v10
+        name: cardapi
+        ports:
+        - containerPort: 5001
+          name: cardapiport
+        livenessProbe:
+            httpGet:
+              path: /health
+              port: 5001
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            timeoutSeconds: 1
+            successThreshold: 1
+            failureThreshold: 3
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cardapi
+spec:
+  ports:
+  - port: 5001
+  type: LoadBalancer
+  selector:
+    app: cardapi

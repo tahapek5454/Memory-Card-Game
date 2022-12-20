@@ -1,8 +1,11 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request,Response
 import mysql.connector
 import redis
 from apscheduler.schedulers.background import BackgroundScheduler
+from flask import abort
 
+# API  
+app = Flask(__name__)
 global conn 
 conn = mysql.connector.connect(host='10.64.15.42',
                         user='root',
@@ -53,8 +56,23 @@ def getCardsFromDb():
     return response
 
     
-# API  
-app = Flask(__name__)
+
+@app.route('/health', methods=['GET'])
+def health():
+        query = "SELECT c.id, c.name, c.score, h.Name, h.Score, c.image FROM Cards as c, Home as h WHERE c.home_id = h.id"
+        conn_cursor.execute(query)
+        result = conn_cursor.fetchall()
+        
+        if len(result)>0:
+            return Response(
+            "Container is healthy.",
+                status=200,
+            )
+        
+        return Response(
+            "Container is unhealthy.",
+                status=500,
+            )   
 
 @app.route("/getCards", methods = ["GET"])
 def getCard():

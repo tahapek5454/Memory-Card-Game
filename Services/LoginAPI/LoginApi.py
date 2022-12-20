@@ -1,7 +1,7 @@
 import flask
 import mysql.connector
 import redis
-from flask import request, jsonify
+from flask import request, jsonify,abort,Response
 from apscheduler.schedulers.background import BackgroundScheduler
 
 
@@ -156,7 +156,21 @@ def chgpassword(data):
         
         return "NOTOK FLSUSR"    
 
-
+@app.route('/health', methods=['GET'])
+def health():
+        query = "Select Email from Users"
+        conn_cursor.execute(query)
+        result = conn_cursor.fetchall()
+        
+        if len(result)>0:
+            return Response(
+            "Container is healthy.",
+                status=200,
+            ) 
+        return Response(
+            "Container is unhealthy.",
+                status=500,
+            )  
     
 
 if __name__ == '__main__':
