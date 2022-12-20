@@ -117,14 +117,9 @@ class Game : AppCompatActivity() {
             pauseSound()
         }
 
-
-
-
-
         // biz eklenen cards lara sırasıyla image atıcaz
 
         // image isinlerini boyle sırasıyla atsak
-
 
         cards2.forEachIndexed{index, card2 ->
             // println("Eklenen index "+index)

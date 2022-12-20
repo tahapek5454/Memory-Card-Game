@@ -39,6 +39,7 @@ class GameForTwo : AppCompatActivity() {
     var shocksound: MediaPlayer? = null
     var victorysound: MediaPlayer? = null
     var nirvanasound: MediaPlayer? = null
+    var isPlaying = true
 
 
     var homeName1Counter =0
@@ -61,10 +62,12 @@ class GameForTwo : AppCompatActivity() {
 
         binding.sesAc.setOnClickListener {
             playSound()
+            isPlaying = true
         }
 
         binding.sesKapa.setOnClickListener {
             pauseSound()
+            isPlaying = false
         }
 
         var images = mutableListOf(R.drawable.bir,
@@ -396,7 +399,9 @@ class GameForTwo : AppCompatActivity() {
     private fun modeliguncelle(index: Int) {
         NirvanastopSound()
         CongratstopSound()
-        playSound()
+        if(isPlaying){
+            playSound()
+        }
         var card = cards[index]
         val new_text:String = card.name+"(Puan:"+card.score+""+",Ev:"+card.home+")"
         val textView = TextView(this)

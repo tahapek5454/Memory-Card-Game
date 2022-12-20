@@ -78,6 +78,7 @@ class GameForSix2 : AppCompatActivity() {
     var victorysound: MediaPlayer? = null
     var nirvanasound: MediaPlayer? = null
     var oyuncu = true
+    var isPlaying = true
 
 
 
@@ -150,10 +151,12 @@ class GameForSix2 : AppCompatActivity() {
 
         binding.sesAc.setOnClickListener {
             playSound()
+            isPlaying = true
         }
 
         binding.sesKapa.setOnClickListener {
             pauseSound()
+            isPlaying = false
         }
 
 
@@ -545,7 +548,9 @@ class GameForSix2 : AppCompatActivity() {
     private fun modeliguncelle(index: Int) {
         NirvanastopSound()
         CongratstopSound()
-        playSound()
+        if(isPlaying){
+            playSound()
+        }
         var card = cards[index]
         val new_text:String = card.name+"(Puan:"+card.score+""+",Ev:"+card.home+")"
         val textView = TextView(this)
