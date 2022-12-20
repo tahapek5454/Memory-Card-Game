@@ -472,6 +472,7 @@ class Game : AppCompatActivity() {
     private fun modeliguncelle(index: Int) {
         NirvanastopSound()
         CongratstopSound()
+        playSound()
         var card = cards[index]
         //println("Cards[index] lengt "+cards.size)
         val new_text:String = card.name+"(Puan:"+card.score+""+",Ev:"+card.home+")"
@@ -533,8 +534,10 @@ class Game : AppCompatActivity() {
             calculateTrueResult(index)
 
             if(cards[index].name == "Cedric Diggory"){
+                pauseSound()
                 NirvanaplaySound()
             }else{
+                pauseSound()
                 CongratsplaySound()
             }
             var bittimi = 1

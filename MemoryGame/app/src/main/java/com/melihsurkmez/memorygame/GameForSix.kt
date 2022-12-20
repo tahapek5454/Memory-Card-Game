@@ -462,6 +462,7 @@ class GameForSix : AppCompatActivity() {
     }
 
     private fun modeliguncelle(index: Int) {
+        playSound()
         NirvanastopSound()
         CongratstopSound()
         var card = cards[index]
@@ -529,8 +530,10 @@ class GameForSix : AppCompatActivity() {
 
             var bittimi = 1
             if(cards[index].name == "Cedric Diggory"){
+                pauseSound()
                 NirvanaplaySound()
             }else{
+                pauseSound()
                 CongratsplaySound()
 
             }

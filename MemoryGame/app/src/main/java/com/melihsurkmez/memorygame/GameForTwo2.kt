@@ -458,6 +458,7 @@ class GameForTwo2 : AppCompatActivity() {
     private fun modeliguncelle(index: Int) {
         NirvanastopSound()
         CongratstopSound()
+        playSound()
         var card = cards[index]
         val new_text:String = card.name+"(Puan:"+card.score+""+",Ev:"+card.home+")"
         val textView = TextView(this)
@@ -523,9 +524,12 @@ class GameForTwo2 : AppCompatActivity() {
 
             var bittimi = 1
             if(cards[index].name == "Cedric Diggory"){
+                pauseSound()
                 NirvanaplaySound()
             }else{
+                pauseSound()
                 CongratsplaySound()
+
 
             }
             for(card in cards){
