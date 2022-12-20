@@ -406,7 +406,7 @@ class GameForSix : AppCompatActivity() {
         var totalScore = puan.text.toString().toInt()
         var timeScore = sayac.text.toString().toInt()
 
-        var calculate = (card.score*2*card.home)*(timeScore/10)
+        var calculate = ((card.score*2*card.home)*(timeScore.toFloat()/10)).toInt()
         calculate = calculate + totalScore
 
 
@@ -430,11 +430,11 @@ class GameForSix : AppCompatActivity() {
 
         if(card1.home == card2.home){
 
-            calculate = ((card1.score+card2.score)/card1.home)*(timeScore/10)
+            calculate = (((card1.score+card2.score)/card1.home)*(timeScore.toFloat()/10)).toInt()
             calculate = totalScore-calculate
 
         }else{
-            calculate = ((((card1.score+card2.score)/2)*card1.home*card2.home))*(timeScore/10)
+            calculate = (((((card1.score+card2.score)/2)*card1.home*card2.home))*(timeScore.toFloat()/10)).toInt()
             calculate = totalScore-calculate
 
         }
