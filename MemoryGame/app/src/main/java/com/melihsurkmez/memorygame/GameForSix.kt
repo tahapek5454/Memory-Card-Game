@@ -585,7 +585,7 @@ class GameForSix : AppCompatActivity() {
 
     //Timer
     private fun myTimer(){
-        timer = object : CountDownTimer(45000,1000){
+        timer = object : CountDownTimer(46000,1000){
             override fun onTick(p0: Long) {
                 sayac.text = "${p0/1000}"
 
