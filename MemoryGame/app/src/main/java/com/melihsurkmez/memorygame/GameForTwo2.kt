@@ -594,7 +594,7 @@ class GameForTwo2 : AppCompatActivity() {
 
     //Timer
     private fun myTimer(){
-        timer = object : CountDownTimer(60000,1000){
+        timer = object : CountDownTimer(61000,1000){
             override fun onTick(p0: Long) {
                 sayac.text = "${p0/1000}"
 

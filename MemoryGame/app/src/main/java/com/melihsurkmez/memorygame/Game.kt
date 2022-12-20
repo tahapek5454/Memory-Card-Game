@@ -1,31 +1,17 @@
 package com.melihsurkmez.memorygame
 
-import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Typeface
-import android.media.AudioManager
 import android.media.MediaPlayer
-import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
-import android.util.Log
 import android.util.TypedValue
 import android.widget.ImageButton
 import android.widget.TextView
-import com.android.volley.toolbox.StringRequest
-import com.android.volley.toolbox.Volley
-import com.melihsurkmez.memorygame.databinding.ActivityGameBinding
-import okhttp3.Request
-import okhttp3.Response
-import org.json.JSONArray
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.create
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
+import com.melihsurkmez.memorygame.databinding.ActivityGameBinding
 import kotlinx.android.synthetic.main.activity_game.*
 import kotlinx.android.synthetic.main.activity_game.imageButton
 import kotlinx.android.synthetic.main.activity_game.imageButton10
@@ -46,7 +32,6 @@ import kotlinx.android.synthetic.main.activity_game.imageButton9
 import kotlinx.android.synthetic.main.activity_game.puan
 import kotlinx.android.synthetic.main.activity_game.sayac
 import kotlinx.android.synthetic.main.activity_game_for_six.*
-import java.io.IOException
 
 class Game : AppCompatActivity() {
     lateinit var binding: ActivityGameBinding
@@ -61,6 +46,7 @@ class Game : AppCompatActivity() {
     var shockedsound: MediaPlayer? = null
     var victorysound: MediaPlayer? = null
     var nirvanasound: MediaPlayer? = null
+    var playing: Int = 1
 
 
 
@@ -110,10 +96,12 @@ class Game : AppCompatActivity() {
 
 
         binding.sesAc.setOnClickListener {
+            playing=1
             playSound()
         }
 
         binding.sesKapa.setOnClickListener {
+            playing=0
             pauseSound()
         }
 
@@ -467,7 +455,9 @@ class Game : AppCompatActivity() {
     private fun modeliguncelle(index: Int) {
         NirvanastopSound()
         CongratstopSound()
-        playSound()
+        if(playing!=0){
+            playSound()
+        }
         var card = cards[index]
         //println("Cards[index] lengt "+cards.size)
         val new_text:String = card.name+"(Puan:"+card.score+""+",Ev:"+card.home+")"
@@ -586,7 +576,7 @@ class Game : AppCompatActivity() {
 
     //Timer
     private fun myTimer(){
-        timer = object : CountDownTimer(45000,1000){
+        timer = object : CountDownTimer(46000,1000){
             override fun onTick(p0: Long) {
                 binding.sayac.text = "${p0/1000}"
             }

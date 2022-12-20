@@ -56,6 +56,7 @@ class Game2 : AppCompatActivity() {
     var victorysound: MediaPlayer? = null
     var nirvanasound: MediaPlayer? = null
     var oyuncu = true
+    var playing: Int = 1
 
 
     var homeName1Counter =0
@@ -109,10 +110,12 @@ class Game2 : AppCompatActivity() {
 
 
         binding.sesAc.setOnClickListener {
+            playing=1
             playSound()
         }
 
         binding.sesKapa.setOnClickListener {
+            playing=0
             pauseSound()
         }
 
@@ -495,7 +498,10 @@ class Game2 : AppCompatActivity() {
     private fun modeliguncelle(index: Int) {
         NirvanastopSound()
         CongratstopSound()
-        playSound()
+        if(playing!=0){
+            playSound()
+        }
+
         var card = cards[index]
         val new_text:String = card.name+"(Puan:"+card.score+""+",Ev:"+card.home+")"
         val textView = TextView(this)
@@ -626,7 +632,7 @@ class Game2 : AppCompatActivity() {
 
     //Timer
     private fun myTimer(){
-        timer = object : CountDownTimer(60000,1000){
+        timer = object : CountDownTimer(61000,1000){
             override fun onTick(p0: Long) {
                 sayac.text = "${p0/1000}"
 

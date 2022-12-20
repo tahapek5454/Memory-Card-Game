@@ -37,7 +37,7 @@ class SplashScreen : AppCompatActivity() {
         imageView.animation = animation2
         text.animation = animation3
 
-        object : CountDownTimer(8000, 8000) {
+        object : CountDownTimer(3000, 3000) {
             override fun onTick(millisUntilFinished: Long) {
 
                 get_data()
