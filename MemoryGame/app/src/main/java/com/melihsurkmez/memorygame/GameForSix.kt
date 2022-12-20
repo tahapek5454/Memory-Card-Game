@@ -34,7 +34,7 @@ class GameForSix : AppCompatActivity() {
     var shocksound: MediaPlayer? = null
     var victorysound: MediaPlayer? = null
     var nirvanasound: MediaPlayer? = null
-
+    var playing: Int = 1
     var homeName1Counter =0
     var homeName2Counter =0
     var homeName3Counter =0
@@ -104,10 +104,12 @@ class GameForSix : AppCompatActivity() {
             ,R.drawable.kirkdort)
 
         binding.sesAc.setOnClickListener {
+            playing=1
             playSound()
         }
 
         binding.sesKapa.setOnClickListener {
+            playing=0
             pauseSound()
         }
 
@@ -462,7 +464,9 @@ class GameForSix : AppCompatActivity() {
     }
 
     private fun modeliguncelle(index: Int) {
-        playSound()
+        if(playing!=0){
+            playSound()
+        }
         NirvanastopSound()
         CongratstopSound()
         var card = cards[index]

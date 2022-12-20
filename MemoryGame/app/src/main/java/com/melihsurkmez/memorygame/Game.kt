@@ -46,6 +46,7 @@ class Game : AppCompatActivity() {
     var shockedsound: MediaPlayer? = null
     var victorysound: MediaPlayer? = null
     var nirvanasound: MediaPlayer? = null
+    var playing: Int = 1
 
 
 
@@ -95,10 +96,12 @@ class Game : AppCompatActivity() {
 
 
         binding.sesAc.setOnClickListener {
+            playing=1
             playSound()
         }
 
         binding.sesKapa.setOnClickListener {
+            playing=0
             pauseSound()
         }
 
@@ -457,7 +460,9 @@ class Game : AppCompatActivity() {
     private fun modeliguncelle(index: Int) {
         NirvanastopSound()
         CongratstopSound()
-        playSound()
+        if(playing!=0){
+            playSound()
+        }
         var card = cards[index]
         //println("Cards[index] lengt "+cards.size)
         val new_text:String = card.name+"(Puan:"+card.score+""+",Ev:"+card.home+")"
