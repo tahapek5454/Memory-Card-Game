@@ -55,12 +55,12 @@ class Game : AppCompatActivity() {
     lateinit var timer : CountDownTimer
     var cards = ArrayList<Card>()
     var cards2 = ArrayList<Card>()
-    var indexOfSingleSelectionCard : Int? =null
-    var mMediaPlayer: MediaPlayer? = null
-    var mCMediaPlayer: MediaPlayer? = null
-    var mSMediaPlayer: MediaPlayer? = null
-    var mVMediaPlayer: MediaPlayer? = null
-    var mNMediaPlayer: MediaPlayer? = null
+    var secilenkartindex : Int? =null
+    var gamesound: MediaPlayer? = null
+    var congratsound: MediaPlayer? = null
+    var shockedsound: MediaPlayer? = null
+    var victorysound: MediaPlayer? = null
+    var nirvanasound: MediaPlayer? = null
 
 
 
@@ -224,9 +224,9 @@ class Game : AppCompatActivity() {
         buttons.forEachIndexed { index, button ->
             button.setOnClickListener {
 
-                updateModel(index)
+                modeliguncelle(index)
 
-                updateViews()
+                gorunumuguncelle()
 
 
             }
@@ -272,100 +272,100 @@ class Game : AppCompatActivity() {
     }
 
     fun NirvanaplaySound() {
-        if (mNMediaPlayer == null) {
-            mNMediaPlayer = MediaPlayer.create(this, R.raw.nirvana)
-            mNMediaPlayer!!.isLooping = true
-            mNMediaPlayer!!.start()
-        } else mNMediaPlayer!!.start()
+        if (nirvanasound == null) {
+            nirvanasound = MediaPlayer.create(this, R.raw.nirvana)
+            nirvanasound!!.isLooping = true
+            nirvanasound!!.start()
+        } else nirvanasound!!.start()
     }
 
     fun NirvanastopSound() {
-        if (mNMediaPlayer != null) {
-            mNMediaPlayer!!.stop()
-            mNMediaPlayer!!.release()
-            mNMediaPlayer = null
+        if (nirvanasound != null) {
+            nirvanasound!!.stop()
+            nirvanasound!!.release()
+            nirvanasound = null
         }
     }
 
 
     fun playSound() {
-        if (mMediaPlayer == null) {
-            mMediaPlayer = MediaPlayer.create(this, R.raw.prologue)
-            mMediaPlayer!!.isLooping = true
-            mMediaPlayer!!.start()
-        } else mMediaPlayer!!.start()
+        if (gamesound == null) {
+            gamesound = MediaPlayer.create(this, R.raw.prologue)
+            gamesound!!.isLooping = true
+            gamesound!!.start()
+        } else gamesound!!.start()
     }
     fun pauseSound() {
-        if (mMediaPlayer?.isPlaying == true) mMediaPlayer?.pause()
+        if (gamesound?.isPlaying == true) gamesound?.pause()
     }
     fun stopSound() {
-        if (mMediaPlayer != null) {
-            mMediaPlayer!!.stop()
-            mMediaPlayer!!.release()
-            mMediaPlayer = null
+        if (gamesound != null) {
+            gamesound!!.stop()
+            gamesound!!.release()
+            gamesound = null
         }
     }
     // 4. Destroys the MediaPlayer instance when the app is closed
     override fun onStop() {
         super.onStop()
-        if (mMediaPlayer != null) {
-            mMediaPlayer!!.release()
-            mMediaPlayer = null
+        if (gamesound != null) {
+            gamesound!!.release()
+            gamesound = null
         }
     }
     fun CongratsplaySound() {
-        if (mCMediaPlayer == null) {
-            mCMediaPlayer = MediaPlayer.create(this, R.raw.congrats)
-            mCMediaPlayer!!.isLooping = true
-            mCMediaPlayer!!.start()
-        } else mCMediaPlayer!!.start()
+        if (congratsound == null) {
+            congratsound = MediaPlayer.create(this, R.raw.congrats)
+            congratsound!!.isLooping = true
+            congratsound!!.start()
+        } else congratsound!!.start()
     }
     fun CongratspauseSound() {
-        if (mCMediaPlayer?.isPlaying == true) mCMediaPlayer?.pause()
+        if (congratsound?.isPlaying == true) congratsound?.pause()
     }
     fun CongratstopSound() {
-        if (mCMediaPlayer != null) {
-            mCMediaPlayer!!.stop()
-            mCMediaPlayer!!.release()
-            mCMediaPlayer = null
+        if (congratsound != null) {
+            congratsound!!.stop()
+            congratsound!!.release()
+            congratsound = null
         }
     }
     // 4. Destroys the MediaPlayer instance when the app is closed
 
     fun shockedplaySound() {
-        if (mSMediaPlayer == null) {
-            mSMediaPlayer = MediaPlayer.create(this, R.raw.shocked)
-            mSMediaPlayer!!.isLooping = true
-            mSMediaPlayer!!.start()
-        } else mSMediaPlayer!!.start()
+        if (shockedsound == null) {
+            shockedsound = MediaPlayer.create(this, R.raw.shocked)
+            shockedsound!!.isLooping = true
+            shockedsound!!.start()
+        } else shockedsound!!.start()
     }
     fun shockedpauseSound() {
-        if (mSMediaPlayer?.isPlaying == true) mSMediaPlayer?.pause()
+        if (shockedsound?.isPlaying == true) shockedsound?.pause()
     }
     fun shockedstopSound() {
-        if (mSMediaPlayer != null) {
-            mSMediaPlayer!!.stop()
-            mSMediaPlayer!!.release()
-            mSMediaPlayer = null
+        if (shockedsound != null) {
+            shockedsound!!.stop()
+            shockedsound!!.release()
+            shockedsound = null
         }
     }
     // 4. Destroys the MediaPlayer instance when the app is closed
 
     fun victoryplaySound() {
-        if (mVMediaPlayer == null) {
-            mVMediaPlayer = MediaPlayer.create(this, R.raw.victory)
-            mVMediaPlayer!!.isLooping = true
-            mVMediaPlayer!!.start()
-        } else mVMediaPlayer!!.start()
+        if (victorysound == null) {
+            victorysound = MediaPlayer.create(this, R.raw.victory)
+            victorysound!!.isLooping = true
+            victorysound!!.start()
+        } else victorysound!!.start()
     }
     fun victorypauseSound() {
-        if (mVMediaPlayer?.isPlaying == true) mVMediaPlayer?.pause()
+        if (victorysound?.isPlaying == true) victorysound?.pause()
     }
     fun victorystopSound() {
-        if (mVMediaPlayer != null) {
-            mVMediaPlayer!!.stop()
-            mVMediaPlayer!!.release()
-            mVMediaPlayer = null
+        if (victorysound != null) {
+            victorysound!!.stop()
+            victorysound!!.release()
+            victorysound = null
         }
     }
     // 4. Destroys the MediaPlayer instance when the app is closed
@@ -454,7 +454,7 @@ class Game : AppCompatActivity() {
 
     }
 
-    private fun updateViews() {
+    private fun gorunumuguncelle() {
 
         cards.forEachIndexed{index, card->
             var button = buttons[index]
@@ -469,7 +469,7 @@ class Game : AppCompatActivity() {
     }
 
 
-    private fun updateModel(index: Int) {
+    private fun modeliguncelle(index: Int) {
         NirvanastopSound()
         CongratstopSound()
         var card = cards[index]
@@ -488,9 +488,9 @@ class Game : AppCompatActivity() {
             return
         }
 
-        if(indexOfSingleSelectionCard == null){
-            restoreCards()
-            indexOfSingleSelectionCard = index
+        if(secilenkartindex == null){
+            kartlarirestoret()
+            secilenkartindex = index
             card.isFaceUp = !card.isFaceUp
             //println("FaceUpladim")
             // println(card)
@@ -502,14 +502,14 @@ class Game : AppCompatActivity() {
             // }
 
         }else{
-            checkForMatch(indexOfSingleSelectionCard!!, index)
-            indexOfSingleSelectionCard = null
+            eslesmeyikontrolet(secilenkartindex!!, index)
+            secilenkartindex = null
         }
 
 
     }
 
-    private fun restoreCards(){
+    private fun kartlarirestoret(){
 
         for (card in cards){
             if(!card.isMatched){
@@ -519,17 +519,17 @@ class Game : AppCompatActivity() {
         }
     }
 
-    private fun checkForMatch(indexOfSingleSelectionCard: Int, index: Int) {
+    private fun eslesmeyikontrolet(secilenkartindex: Int, index: Int) {
 
-        if(cards[indexOfSingleSelectionCard].image == cards[index].image){
+        if(cards[secilenkartindex].image == cards[index].image){
 
             Toast.makeText(this, "Eslesme Basarili", Toast.LENGTH_SHORT).show()
 
 
-            cards[indexOfSingleSelectionCard].isMatched = true
+            cards[secilenkartindex].isMatched = true
             cards[index].isMatched = true
             cards[index].isFaceUp = !cards[index].isFaceUp
-            updateViews()
+            gorunumuguncelle()
             calculateTrueResult(index)
 
             if(cards[index].name == "Cedric Diggory"){
@@ -565,9 +565,9 @@ class Game : AppCompatActivity() {
                     for (button in buttons) {    // Başta Kartlar Ters Gözüksün Diye
                         button.isEnabled = false
                     }
-                    calculateFalseResult(indexOfSingleSelectionCard, index)
+                    calculateFalseResult(secilenkartindex, index)
                     buttons[index].setImageResource(cards[index].image)
-                    buttons[indexOfSingleSelectionCard].setImageResource(cards[indexOfSingleSelectionCard].image)
+                    buttons[secilenkartindex].setImageResource(cards[secilenkartindex].image)
 
                 }
 
@@ -575,8 +575,8 @@ class Game : AppCompatActivity() {
                     for (button in buttons) {    // Başta Kartlar Ters Gözüksün Diye
                         button.isEnabled = true
                     }
-                    restoreCards()
-                    updateViews()
+                    kartlarirestoret()
+                    gorunumuguncelle()
 
                 }
             }.start()
